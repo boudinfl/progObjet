@@ -59,8 +59,14 @@ table.schema_classe th {
 
 .reveal h3 {
   font-size: 125%;
+  margin-bottom: 20px;
+}
+
+.reveal h4 {
+  font-size: 110%;
   margin-bottom: 10px;
 }
+
 
 /*********************************************
  * LINKS
