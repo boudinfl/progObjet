@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+      <title>Programmation Objet</title>
+
+      <link rel="stylesheet" href="reveal.js/css/reveal.min.css">
+      <link rel="stylesheet" href="css/simple-theme.css" id="theme">
+
+      <!-- For syntax highlighting -->
+      <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+
+      <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+      <script>
+        if( window.location.search.match( /print-pdf/gi ) ) {
+          var link = document.createElement( 'link' );
+          link.rel = 'stylesheet';
+          link.type = 'text/css';
+          link.href = 'reveal.js/css/print/pdf.css';
+          document.getElementsByTagName( 'head' )[0].appendChild( link );
+        }
+      </script>
+
+      <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+      <![endif]-->
+
+  </head>
+
+  <body>
+
+    <div class="reveal">
+      <div class="slides">
+
+          <section>
+            <h1>Programmation Objet</h1>
+            <h2>Florian Boudin</h2>
+            <h3>Révision 3 du 24 juillet 2014</h3>
+          </section>
+
+          <section>
+            <h1>Présentation du module</h1>
+            <ul>
+              <li>notions abordées</li>
+              <ul>
+                <li>objets, classes, encapsulation, héritage, etc.</li>
+              </ul>
+              <li>pré-requis : <i>background</i> en programmation</li>
+              <li>volume horaire</li>
+              <ul>
+                <li>9 CM - 9 TD - 18 TP (48h)</li>
+              </ul>
+              <li>notation</li>
+              <ul>
+                <li>25% CC, 25% projet, 50% examen</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+              <h1>Présentation du module (cont.)</h1>
+              <ul>
+                <li>cours basé sur les tutoriels Java SE de Oracle</li>
+                <ul>
+                  <li><a href="http://docs.oracle.com/javase/tutorial/">http://docs.oracle.com/javase/tutorial/</a></li>
+                </ul>
+                <li>supports disponibles sur madoc/GitHub</li>
+              </ul>
+          </section>
+
+          <section>
+            <h1>Plan</h1>
+            <ul>
+              <li>Introduction à la programmation objet</li>
+              <ul>
+                <li>Objets</li>
+                <li>Classes</li>
+                <li>Héritage</li>
+                <li>Interfaces</li>
+                <li>Packages</li>
+                <li>Questions-Réponses</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Qu'est ce qu'un objet ?</h1>
+            <ul>
+              <li>regardez autour de vous pour trouver des exemples d'objets réels : une chaise, un tableau, etc.</li>
+              <li>les objets réels partagent deux caractéristiques : un <em>état</em> et un <em>comportement</em></li>
+              <li>exemple : un stylo</li>
+              <ul>
+                <li>état : couleur, marque, etc.</li>
+                <li>comportement : écrire, tomber, etc.</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Qu'est ce qu'un objet ? (cont.)</h1>
+            <ul>
+              <li>identifier les états et comportements d'objets réels est une bonne façon d'appréhender la programmation objet</li>
+              <li>pour chaque objet, il faut se poser deux questions :</li>
+              <ul>
+                <li>quels sont les états possibles de cet objet ?</li>
+                <li>quels sont les comportements possibles de cet objet ?</li>
+              </ul>
+              <li>prenez une minute pour observer les objets autour de vous et écrire vos observations</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Qu'est ce qu'un objet ? (cont.)</h1>
+            <ul>
+              <li>les objets varient en <em>complexité</em></li>
+              <ul>
+                <li>lampe de bureau vs. téléphone mobile</li>
+              </ul>
+              <li>certains objets contiennent d'autres objets</li>
+              <ul>
+                <li>e.g. trousse contient des stylos</li>
+              </ul>
+              <li>toutes ces observations se traduisent en programmation objet</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>La notion d'objet</h1>
+            <ul>
+              <li>un objet est une <em>structure de données</em></li>
+              <li>un objet est caractérisé par :</li>
+              <ul>
+                <li>un état stocké dans des <em>champs</em> &rarr; variables</li>
+                <li>un comportement défini par des <em>méthodes</em> &rarr; fonctions</li>
+              </ul>
+              <li>les méthodes modifient l’état interne d'un objet et permettent aux objets de communiquer</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Représenter un objet</h1>
+            <center>
+              <table>
+                <tr>
+                  <td style="vertical-align:middle;">
+                    <img src="img/concepts-object.png" alt="concepts-object.png">
+                  </td>
+                  <td style="vertical-align:middle;">
+                    <table class="schema_classe">
+                      <tr><td><em>Nom de la classe</em></td></tr>
+                      <tr><td>champs</td></tr>
+                      <tr><td>méthodes</td></tr>
+                    </table>
+                  </td>
+                <tr>
+              </table>
+            </center>
+          </section>
+
+          <section>
+            <h1>Un exemple d'objet : un vélo</h1>
+            <img src="img/concepts-bicycleObject.png" alt="concepts-bicycleObject.png">
+            <ul>
+              <li>définir un état et des méthodes permettent de contrôler l'objet</li>
+              <ul>
+                <li>e.g. si le vélo n'a que 7 vitesses, une méthode pour changer de vitesse doit rejeter toute valeur &lt; 7 ou &gt; 7</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Les avantages des objets</h1>
+            <ul>
+              <li><em>modularité</em></li>
+              <ul>
+                <li>le code source d’un objet peut être écrit et maintenu indépendamment de celui d’autres objets</li>
+              </ul>
+              <li><em>encapsulation</em></li>
+              <ul>
+                <li>en ne proposant que des méthodes pour manipuler un objet, les détails de son implémentation restent masqués</li>
+              </ul>
+              <li><em>réutilisation du code</em></li>
+              <ul>
+                <li>un objet existant peut être utilisé dans votre programme</li>
+                <li>déléguer le développement d’objets complexes à des spécialistes</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Les avantages des objets (cont.)</h1>
+            <ul>
+              <li><em>débogage plus simple</em></li>
+              <ul>
+                <li>si un objet est problématique, vous pouvez simplement le remplacer par un autre</li>
+              </ul>
+              <li>analogue à la résolution de problèmes mécaniques</li>
+              <ul>
+                <li>si un boulon casse, vous le remplacez, pas toute la machine</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Plan</h1>
+            <ul>
+              <li>Introduction à la programmation objet</li>
+              <ul>
+                <li class="shadow">Objets</li>
+                <li>Classes</li>
+                <li class="shadow">Héritage</li>
+                <li class="shadow">Interfaces</li>
+                <li class="shadow">Packages</li>
+                <li class="shadow">Questions-Réponses</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Qu’est ce qu'une classe ?</h1>
+            <ul>
+              <li>il existe des milliers de vélos, tous construits sur le même modèle et partageant les mêmes composants</li>
+              <li>une <em>classe</em> est une description des caractéristiques d’un ou de plusieurs objets</li>
+              <li>un objet créé à partir d’une classe est une <em>instance</em> de la classe</li>
+              <ul>
+                <li>e.g. le vélo de Pierre est une <em>instance</em> de la classe <em>vélo</em></li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Un exemple de classe <code>Bicycle</code></h1>
+            <pre><code data-trim>
+class Bicycle {
+  int cadence = 0;
+  int speed = 0;
+  int gear = 1;
+
+  void changeCadence(int newValue) {
+    cadence = newValue;
+  }
+                    
+  void changeGear(int newValue) {
+    gear = newValue;
+  }
+  
+  void speedUp(int increment) {
+    speed = speed + increment;
+  }
+  
+  void applyBrakes(int decrement) {
+    speed = speed - decrement;
+  }
+  
+  void printStates() {
+    System.out.println("cadence:" + cadence + " speed:" + speed + " gear:" + gear);
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Un exemple de classe <code>Bicycle</code></h1>
+            <ul>
+              <li>les champs <code>cadence</code>, <code>speed</code> et <code>gear</code> représentent l'état de l'objet</li>
+              <li>les méthodes définissent les interactions de l'objet avec le monde extérieur</li>
+              <li>il n'y a pas de méthode <code>main</code></li>
+              <ul>
+                <li>il ne s’agit pas d’une application mais d’un modèle pour des vélos qui pourraient être utilisés dans une application</li>
+                <li>la responsabilité de créer et d’utiliser de nouveaux objets vélo appartient à une autre classe dans votre application</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Une première application</h1>
+            <pre><code data-trim contenteditable>
+class BicycleDemo {
+  public static void main(String[] args) {
+
+    Bicycle bike1 = new Bicycle(); // Create two different
+    Bicycle bike2 = new Bicycle(); // Bicycle objects
+
+    bike1.changeCadence(50); // Invoke methods on
+    bike1.speedUp(10); // those objects
+    bike1.changeGear(2);
+    bike1.printStates();
+
+    bike2.changeCadence(50);
+    bike2.speedUp(10);
+    bike2.changeGear(2);
+    bike2.changeCadence(40);
+    bike2.speedUp(10);
+    bike2.changeGear(3);
+    bike2.printStates();
+
+  }
+}
+
+// sortie du programme
+// cadence:50 speed:10 gear:2
+// cadence:40 speed:20 gear:3
+          </code></pre>
+          </section>
+
+          <section>
+            <h1>Plan</h1>
+            <ul>
+              <li>Introduction à la programmation objet</li>
+              <ul>
+                <li class="shadow">Objets</li>
+                <li class="shadow">Classes</li>
+                <li>Héritage</li>
+                <li class="shadow">Interfaces</li>
+                <li class="shadow">Packages</li>
+                <li class="shadow">Questions-Réponses</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Qu’est ce que l’héritage ?</h1>
+            <ul>
+              <li>les VTT et les tandems partagent les caractéristiques des vélos mais ils en ont aussi des nouvelles :</li>
+              <ul>
+                <li>deux selles et deux guidons pour les tandems</li>
+                <li>un pédalier compact pour les VTT</li>
+              </ul>
+              <li>en programmation objet, les classes peuvent hériter des champs et des méthodes d’autres classes</li>
+              <li>exemple de classe <code>MountainBike</code></li>
+              <ul>
+                <li><code>Bicycle</code> est la <em>super-classe</em> de <code>MountainBike</code></li>
+                <li><code>MountainBike</code> est une <em>sous-classe</em> de <code>Bicycle</code></li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Exemple de hiérarchie</h1>
+            <img src="img/concepts-bikeHierarchy.png" alt="concepts-bikeHierarchy.png">
+            <ul>
+              <li>syntaxe pour créer une sous-classe :</li>
+              <ul>
+                <li>mot-clé <code>extends</code> suivi du nom de la classe à hériter</li>
+                <li>en Java, une classe ne peut avoir qu’une super-classe et une super-classe peut avoir un nombre illimité de sous-classes</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>La sous-classe <code>MountainBike</code></h1>
+            <pre><code data-trim contenteditable>
+class MountainBike extends Bicycle {
+  // new fields and methods defining
+  // a mountain bike would go here
+}
+            </code></pre>
+            <ul>
+              <li><code>MountainBike</code> possède tous les champs et les méthodes de la classe <code>Bicycle</code></li>
+              <li>développer les champs et méthodes spécifiques</li>
+              <li>bien <em>documenter</em> chaque super-classe car son code sera absent de la source des sous-classes</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Plan</h1>
+            <ul>
+              <li>Introduction à la programmation objet</li>
+              <ul>
+                <li class="shadow">Objets</li>
+                <li class="shadow">Classes</li>
+                <li class="shadow">Héritage</li>
+                <li>Interfaces</li>
+                <li class="shadow">Packages</li>
+                <li class="shadow">Questions-Réponses</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Qu’est ce qu’une interface ?</h1>
+            <ul>
+              <li>les objets définissent leurs interactions avec le monde extérieur par le biais des méthodes qu’elles exposent</li>
+              <li>les méthodes forment l’<em>interface</em> de l’objet avec le monde extérieur</li>
+              <ul>
+                <li>e.g. les boutons sur votre téléviseur sont l’interface entre vous et le câblage électrique de l’autre côté du boîtier</li>
+              </ul>
+              <li>dans sa forme la plus commune, une interface est un ensemble de méthodes vides</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>L’interface de <code>Bicycle</code></h1>
+            <pre><code data-trim contenteditable>
+interface Bicycle {
+
+  void changeCadence(int newValue);
+  void changeGear(int newValue);
+  void speedUp(int increment);
+  void applyBrakes(int decrement);
+
+}
+            </code></pre>
+            <ul>
+              <li>pour implémenter une interface, vous devez utiliser le mot-clé <code>implements</code> et changer le nom de votre classe</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Implémenter une interface</h1>
+            <pre><code data-trim contenteditable>
+class Bicloo implements Bicycle {
+
+  // remainder of this class implemented
+  // as before
+
+}
+            </code></pre>
+            <ul>
+              <li>implémenter une interface permet de définir formellement le comportement d’une classe</li>
+              <li>le compilateur vérifie si <em>toutes</em> les méthodes définies dans l’interface sont présentes dans le code source de la classe</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Plan</h1>
+            <ul>
+              <li>Introduction à la programmation objet</li>
+              <ul>
+                <li class="shadow">Objets</li>
+                <li class="shadow">Classes</li>
+                <li class="shadow">Héritage</li>
+                <li class="shadow">Interfaces</li>
+                <li>Packages</li>
+                <li class="shadow">Questions-Réponses</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Qu’est ce qu’un package ?</h1>
+            <ul>
+              <li>un <i>package</i> (paquet) est un mécanisme de nommage qui permet de regrouper les classes et interfaces</li>
+              <li>concept similaire au principe des répertoires</li>
+              <li>les logiciels peuvent être composés de plusieurs centaines ou milliers de classes</li>
+              <ul>
+                <li>garder les choses organisées en plaçant les classes et les interfaces liées en paquets</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>L’API Java</h1>
+            <ul>
+              <li>Java fourni une bibliothèque de classes que vous pouvez utiliser dans vos applications</li>
+              <ul>
+                <li>Application Programming Interface (API)</li>
+                <li>contient tout ce qui est nécessaire pour les tâches de programmation classiques : String, File, Socket, GUI, etc.</li>
+              </ul>
+              <li>la Java Platform API Specification contient le détails complet de tous les paquets, interfaces, classes, champs et méthodes disponibles</li>
+              <ul>
+                <li><a href="http://docs.oracle.com/javase/7/docs/api/">http://docs.oracle.com/javase/7/docs/api/</a></li>
+              </ul>
+            </ul>
+          </section>
+
+
+          <section>
+            <h1>Plan</h1>
+            <ul>
+              <li>Introduction à la programmation objet</li>
+              <ul>
+                <li class="shadow">Objets</li>
+                <li class="shadow">Classes</li>
+                <li class="shadow">Héritage</li>
+                <li class="shadow">Interfaces</li>
+                <li class="shadow">Packages</li>
+                <li>Questions-Réponses</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Questions</h1>
+            <ol>
+              <li>les objets réels partagent deux caractéristiques : un ____ et un __________</li>
+              <li>l’état d’un objet est stocké dans des ______</li>
+              <li>le comportement d’un objet est défini par des ________</li>
+              <li>masquer les données d’une classe et y empêcher l’accès par un autre moyen que les méthodes est le principe d’_____________</li>
+              <li>une ______ est une description des caractéristiques d’un ou de plusieurs objets</li>
+            </ol>
+          </section>
+
+          <section>
+            <h1>Réponses</h1>
+            <ol>
+              <li>les objets réels partagent deux caractéristiques : un état et un comportement</li>
+              <li>l’état d’un objet est stocké dans des champs</li>
+              <li>le comportement d’un objet est défini par des méthodes</li>
+              <li>masquer les données d’une classe et y empêcher l’accès par un autre moyen que les méthodes est le principe d’encapsulation</li>
+              <li>une classe est une description des caractéristiques d’un ou de plusieurs objets</li>
+            </ol>
+          </section>
+
+          <section>
+            <h1>Questions</h1>
+            <ol>
+              <li>le comportement commun peut être défini dans une ____________ et hérité dans une ____________ en utilisant le mot-clé _______</li>
+              <li>un ensemble de méthodes sans implémentation est une _________</li>
+              <li>un _______ est un mécanisme de nommage qui permet de regrouper les classes et interfaces</li>
+              <li>API signifie ___________ ___________ _________</li>
+            </ol>
+          </section>
+
+          <section>
+            <h1>Réponses</h1>
+            <ol>
+              <li>le comportement commun peut être défini dans une super-classe et hérité dans une sous-classe en utilisant le mot-clé extends</li>
+              <li>un ensemble de méthodes sans implémentation est une interface</li>
+              <li>un package est un mécanisme de nommage qui permet de regrouper les classes et interfaces</li>
+              <li>API signifie Application Programming Interface</li>
+            </ol>
+          </section>
+
+          <section data-background="#FFCCCC">
+            <h1>Etude de cas : Tetris</h1>
+            <ul>
+              <li>quels sont les objets/classes nécessaires ?</li>
+              <ul>
+                <li>quels sont les états possibles de chaque objet ?</li>
+                <li>quels sont les comportements possibles de chaque objet ?</li>
+              </ul>
+
+            </ul>
+          </section>
+
+      </div>
+    </div>
+
+    <script src="reveal.js/lib/js/head.min.js"></script>
+    <script src="reveal.js/js/reveal.min.js"></script>
+
+    <script>
+
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+    controls: false,
+    progress: true,
+    history: true,
+    center: true,
+    slideNumber: true,
+
+    theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+    transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+    // Parallax scrolling
+    // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+    // parallaxBackgroundSize: '2100px 900px',
+
+    // Optional libraries used to extend on reveal.js
+    dependencies: [
+    { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+    { src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+    { src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+    { src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+    { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+    { src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+    ]
+    });
+
+    </script>
+
+  </body>
+
+</html>
