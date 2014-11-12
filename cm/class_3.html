@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+      <title>Programmation Objet - Les bases du langage Java</title>
+
+      <link rel="stylesheet" href="reveal.js/css/reveal.min.css">
+      <link rel="stylesheet" href="css/simple-theme.css" id="theme">
+
+      <!-- For syntax highlighting -->
+      <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+
+      <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+      <script>
+        if( window.location.search.match( /print-pdf/gi ) ) {
+          var link = document.createElement( 'link' );
+          link.rel = 'stylesheet';
+          link.type = 'text/css';
+          link.href = 'reveal.js/css/print/pdf.css';
+          document.getElementsByTagName( 'head' )[0].appendChild( link );
+        }
+      </script>
+
+      <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+      <![endif]-->
+
+  </head>
+
+  <body>
+
+    <div class="reveal">
+      <div class="slides">
+
+          <section>
+            <h1>Programmation Objet</h1>
+            <h2>Florian Boudin</h2>
+            <h3>Révision 3 du 25 juillet 2014</h3>
+            <h4>Classe 3 : <em>Classes et objets</em></h4>
+          </section>
+
+          <section>
+            <h1>Plan</h1>
+            <ul>
+              <li>Classes et objets</li>
+              <ul>
+                <li>Classes</li>
+                <li>Objets</li>
+                <li>Plus sur les classes</li>
+                <li>Les classes imbriquées</li>
+                <li>Le type énumération</li>
+                <li>La documentation du code</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Implémentation de Bicycle</h1>
+            <pre><code data-trim contenteditable>
+public class Bicycle {
+  public int cadence; // the Bicycle class has
+  public int gear; // three fields
+  public int speed;
+
+  public Bicycle(int startCadence, int startSpeed, int startGear) {
+    gear = startGear;
+    cadence = startCadence; // the Bicycle class
+    speed = startSpeed; // has one constructor
+  }
+
+  public void setCadence(int newValue) { // the Bicycle class
+    cadence = newValue; // has four methods
+  }
+
+  public void setGear(int newValue) {
+    gear = newValue;
+  }
+
+  public void applyBrake(int decrement) {
+    speed -= decrement;
+  }
+
+  public void speedUp(int increment) {
+    speed += increment;
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Implémentation de MountainBike</h1>
+            <pre><code data-trim contenteditable>
+public class MountainBike extends Bicycle {
+  // the MountainBike subclass has one field
+  public int seatHeight;
+
+  // the MountainBike subclass has one constructor
+  public MountainBike(int startHeight, int startCadence,
+                      int startSpeed, int startGear) {
+    super(startCadence, startSpeed, startGear);
+    seatHeight = startHeight;
+  }
+
+  // the MountainBike subclass has one method
+  public void setHeight(int newValue) {
+    seatHeight = newValue;
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Déclaration d’une classe</h1>
+            <ul>
+              <li>déclaration de la classe MyClass ...</li>
+              <pre><code data-trim contenteditable>
+class MyClass {
+  // field, constructor, and
+  // method declarations
+}
+              </code></pre>
+              <li>... sous-classe de MySuperClass et qui implémente YourInterface</li>
+              <pre><code data-trim contenteditable>
+class MyClass extends MySuperClass implements YourInterface {
+  // field, constructor, and
+  // method declarations
+}
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Déclaration d’une classe</h1>
+            <ul>
+              <li>une déclaration de classe peut inclure, dans l’ordre :</li>
+              <ol>
+                <li>les modificateurs tels que <code>public</code>, <code>private</code>, etc.</li>
+                <li>le nom de la classe, avec la première lettre en majuscule</li>
+                <li>le nom de la super-classe précédé par le mot-clé <code>extends</code></li>
+                <li>une liste des interfaces implémentées, séparée par des virgules, précédée par le mot-clé <code>implements</code></li>
+                <li>le corps de la classe, entouré par des accolades <code>{ }</code></li>
+              </ol>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Déclaration des membres de la classe</h1>
+            <ul>
+              <li>plusieurs types de variables :</li>
+              <ul>
+                <li>variables membres de la classe (champs)</li>
+                <li>variables de blocs ou méthodes (variables locales)</li>
+                <li>variables dans les déclarations de méthodes (paramètres)</li>
+              </ul>
+              <li><code>Bicycle</code> utilise les lignes de code suivantes :</li>
+              <pre><code data-trim contenteditable>
+public int cadence;
+public int gear;
+public int speed;
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Déclaration des membres de la classe</h1>
+            <ul>
+              <li>déclaration d’un champ :</li>
+              <ul>
+                <li><code>(public|private|...) type nom;</code></li>
+              </ul>
+              <li><code>public</code> : toutes les classes ont accès au champ</li>
+              <li><code>private</code> : le champ n’est accessible que dans la classe où il est déclaré</li>
+              <li><em>encapsulation</em> &rightarrow; champs privés</li>
+              <ul>
+                <li>comment accéder quand-même aux valeurs ?</li>
+                <li>méthodes publiques pour accéder aux valeurs des champs</li>
+              </ul> 
+            </ul>
+          </section>
+
+          <section>
+            <h1>Déclaration des membres de la classe</h1>
+            <pre><code data-trim contenteditable>
+public class Bicycle {
+        
+    private int cadence;
+    private int gear;
+    private int speed;
+        
+    public Bicycle(int startCadence, int startSpeed, int startGear) {
+        gear = startGear;
+        cadence = startCadence;
+        speed = startSpeed;
+    }
+        
+    public int getCadence() {
+        return cadence;
+    }
+        
+    public void setCadence(int newValue) {
+        cadence = newValue;
+    }
+        
+    public int getGear() {
+        return gear;
+    }
+...
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Définition des méthodes</h1>
+            <ul>
+              <li>exemple de méthode</li>
+              <pre><code data-trim contenteditable>
+public double product( double length, int factor ) {
+  // do the calculation here
+}
+              </code></pre>
+              <li>la <em>signature</em> d’une méthode</li>
+              <pre><code data-trim contenteditable>
+product(double, int)
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Définition des méthodes</h1>
+            <ul>
+              <li>une déclaration de méthode contient, dans l’ordre :</li>
+              <ol>
+                <li>les modificateurs tels que <code>public</code>, <code>private</code>, etc.</li>
+                <li>le type de retour, type de données ou <code>void</code></li>
+                <li>le nom de la méthode</li>
+                <li>la liste de paramètres entre parenthèses, délimités par des virgules</li>
+                <li>le corps de la méthode entre accolades <code>{ }</code></li>
+              </ul>
+            </ol>
+          </section>
+
+          <section>
+            <h1>Surcharger des méthodes</h1>
+            <ul>
+              <li>il est possible de <em>surcharger</em> des méthodes</li>
+              <pre><code data-trim contenteditable>
+public class DataArtist {
+  ...
+  public void draw(String s) {
+    ...
+  }
+  public void draw(int i) {
+    ...
+  }
+  public void draw(double f) {
+    ...
+  }
+  public void draw(int i, double f) {
+    ...
+  }
+}
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Surcharger des méthodes</h1>
+            <ul>
+              <li>différentier les méthodes grace aux signatures</li>
+              <ul>
+                <li>vous ne pouvez pas déclarer plus d’une méthode avec les mêmes paramètres</li>
+                <li>la surcharge de méthodes rends le code <em>moins lisible</em></li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Retourner une valeur</h1>
+            <ul>
+              <li>une méthode retourne au code qui l’a invoquée lorsque :</li>
+              <ul>
+                <li>toutes les déclarations ont été exécutées</li>
+                <li>une instruction <code>return</code> est atteinte</li>
+                <li>une exception est lancée (traité plus tard)</li>
+              </ul>
+              <li>la déclaration contient le type de la valeur de retour</li>
+              <ul>
+                <li>une méthode déclarée avec <code>void</code> ne retourne rien</li>
+                <li>le mot-clé <code>return</code> est utilisé pour spécifier la valeur de retour</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Retourner une valeur</h1>
+            <pre><code data-trim contenteditable>
+public int multiply(int a, int b) {
+  int m = a * b;
+  return m;
+}
+
+public void multiPrint(String m, int n) {
+  for (int i = 0; i &lt; n; i++) {
+    System.out.println(m);
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Les constructeurs</h1>
+            <ul>
+              <li>une classe contient des <em>constructeurs</em> qui sont invoqués pour créer des objets</li>
+              <li>les déclarations de constructeurs ressemblent aux déclarations de méthodes, sauf qu’elles utilisent le nom de la classe et n’ont pas de type de retour</li>
+              <pre><code data-trim contenteditable>
+public Bicycle( int startCadence, int startSpeed, int startGear ) {
+  gear = startGear;
+  cadence = startCadence;
+  speed = startSpeed;
+}
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Les constructeurs</h1>
+            <ul>
+              <li>créer un nouvel objet, un constructeur est appelé avec l’opérateur <code>new</code></li>
+              <pre><code data-trim contenteditable>
+Bicycle myBike = new Bicycle(30, 0, 8);
+              </code></pre>
+              <li>il est possible de créer plusieurs constructeurs</li>
+              <li>les constructeurs sont différentiés par leurs signatures</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Les constructeurs</h1>
+            <pre><code data-trim contenteditable>
+public Bicycle( int startCadence, int startSpeed, int startGear ) {
+  gear = startGear;
+  cadence = startCadence;
+  speed = startSpeed;
+}
+
+public Bicycle() {
+  gear = 1;
+  cadence = 10;
+  speed = 0;
+}
+            </code></pre>
+            <ul>
+              <li>créer un objet avec le constructeur sans arguments</li>
+              <pre><code data-trim contenteditable>
+Bicycle myBike2 = new Bicycle();
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Passage de paramètres</h1>
+            <ul>
+              <li>la déclaration d’une méthode ou d’un constructeur déclare le nombre et le type d’arguments</li>
+              <li>par exemple, la fonction ci-dessous calcule l’aire d’un losange en se basant sur la longueur de la petite diagonale et celle de la grande diagonale</li>
+              <pre><code data-trim contenteditable>
+public double aireLosange( double pDiag, double gDiag ) {
+  double aire = (pDiag * gDiag) / 2.0;
+  return aire;
+}
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Passage de paramètres</h1>
+            <ul>
+              <li>le type des paramètres doit être spécifié :</li>
+              <ul>
+                <li>types primitifs, e.g. <code>int</code>, <code>double</code></li>
+                <li>tableaux, e.g. <code>int[]</code></li>
+                <li>objets, e.g. <code>Bicycle[] bikes</code></li>
+              </ul>
+              <li>la structure <code>varargs</code> permet de passer un nombre variable de paramètres aux méthodes</li>
+              <li><code>methode(type... nomParametre)</code></li>
+              <ul>
+                <li>raccourci pour créer un tableau de type</li>
+              </ul> 
+            </ul>
+          </section>
+
+          <section>
+            <h1>Passage de paramètres</h1>
+            <pre><code data-trim contenteditable>
+public static void hello(String... names) {
+
+  // names.length contient la taille du
+  // tableau de String
+
+  for (String n : names) {
+    System.out.println("Hello "+n+".");
+  }
+}
+
+hello("Paul", "Sue");
+
+// Hello Paul.
+// Hello Sue.
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Passage de paramètres</h1>
+            <ul>
+              <li>le nom d’un paramètre est utilisé dans le corps de la méthode est doit être unique dans sa portée</li>
+              <pre><code data-trim contenteditable>
+public double aireLosange( double pDiag, double gDiag ) {
+
+  double pDiag = 0.1; // erreur
+  ...
+}
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Passage de paramètres</h1>
+            <ul>
+              <li>un paramètre peut avoir le même nom qu’un champ de la classe, il masque alors le champ</li>
+              <pre><code data-trim contenteditable>
+public class Circle {
+
+  private int x, y, radius;
+
+  public void setOrigin(int x, int y) {
+  // x et y contiennent les
+  // valeurs des parametres
+  }
+}
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Passage de paramètres</h1>
+            <ul>
+              <li>paramètres (types primitifs) passés par <em>valeurs</em></li>
+              <ul>
+                <li>toute modification de la valeur d’un paramètre n’existe que dans le cadre de la méthode</li>
+              </ul>
+            </ul>
+            <pre><code data-trim contenteditable>
+public class PassPrimitiveByValue {
+  public static void main(String[] args) {
+    int x = 3;
+    passMethod(x);
+    System.out.println("x = " + x); // x = 3
+  }
+
+  public static void passMethod(int p) {
+    p = 10;
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Plan</h1>
+            <ul>
+              <li>Classes et objets</li>
+              <ul>
+                <li class="shadow">Classes</li>
+                <li>Objets</li>
+                <li class="shadow">Plus sur les classes</li>
+                <li class="shadow">Les classes imbriquées</li>
+                <li class="shadow">Le type énumération</li>
+                <li class="shadow">La documentation du code</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Objets</h1>
+            <ul>
+              <li>une application Java créée de nombreux objets qui interagissent en invoquant des méthodes</li>
+              <li>grâce à ces interactions, une application peut effectuer diverses tâches comme implémenter une GUI ou envoyer des informations sur un réseau</li>
+              <li>une fois qu’un objet a terminé le travail pour lequel il a été créé, ces ressources sont recyclées pour être utilisées par d’autres objets</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>CreateObjectDemo</h1>
+            <pre><code data-trim contenteditable>
+public class CreateObjectDemo {
+  public static void main(String[] args) {
+    // Declare and create a point object and two rectangle objects
+    Point originOne = new Point(23, 94);
+    Rectangle rectOne = new Rectangle(originOne, 100, 200);
+    Rectangle rectTwo = new Rectangle(50, 100);
+
+    // display rectOne’s width, height, and area
+    System.out.println("Width of rectOne: "+rectOne.width);
+    System.out.println("Height of rectOne: "+rectOne.height);
+    System.out.println("Area of rectOne: "+rectOne.getArea());
+
+    // set rectTwo’s position
+    rectTwo.origin = originOne;
+
+    // display rectTwo’s position
+    System.out.println("X Position of rectTwo: "+rectTwo.origin.x);
+    System.out.println("Y Position of rectTwo: "+rectTwo.origin.y);
+
+    // move rectTwo and display its new position
+    rectTwo.move(40, 72);
+    System.out.println("X Position of rectTwo: "+rectTwo.origin.x);
+    System.out.println("Y Position of rectTwo: "+rectTwo.origin.y);
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Créer des objets</h1>
+            <ul>
+              <li>exemple : la classe <code>Point</code></li>
+              <pre><code data-trim contenteditable>
+public class Point {
+  public int x = 0;
+  public int y = 0;
+
+  // constructor
+  public Point(int a, int b) {
+    x = a;
+    y = b;
+  }
+}
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Créer des objets</h1>
+            <ul>
+              <li>création d’un objet Point</li>
+              <pre><code data-trim contenteditable>
+Point originOne = new Point(23, 94);
+              </code></pre>
+            </ul>
+            <img src="img/objects-oneRef.png" alt="objects-oneRef.png" width="50%">
+          </section>
+
+          <section>
+            <h1>Constructeurs</h1>
+            <pre><code data-trim contenteditable>
+public class Rectangle {
+
+  public int width = 0;
+  public int height = 0;
+  public Point origin;
+
+  public Rectangle() { // constructor 1
+    origin = new Point(0, 0);
+  }
+
+  public Rectangle(Point p) { // constructor 2
+    origin = p;
+  }
+
+  public Rectangle(int w, int h) { // constructor 3
+    origin = new Point(0, 0);
+    width = w;
+    height = h;
+  }
+
+  public Rectangle(Point p, int w, int h) { // constructor 4
+    origin = p;
+    width = w;
+    height = h;
+  }
+...
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Créer des objets</h1>
+            <ul>
+              <li>création d’un rectangle à partir de <code>originOne</code></li>
+              <pre><code data-trim contenteditable>
+Rectangle rect = new Rectangle( originOne, 100, 200 );
+              </code></pre>
+            </ul>
+            <img src="img/objects-multipleRefs.png" alt="objects-multipleRefs.png" width="50%">
+          </section>
+
+          <section>
+            <h1>Créer des objets</h1>
+            <ul>
+              <li>création d’un second rectangle</li>
+              <pre><code data-trim contenteditable>
+Rectangle rectTwo = new Rectangle(50, 100);
+// creates a new Point object whose x and y
+// values are initialized to 0
+              </code></pre>
+              <li>création d’un rectangle avec le constructeur vide</li>
+              <pre><code data-trim contenteditable>
+Rectangle rect = new Rectangle();
+              </code></pre>
+              <li>toutes les classes doivent avoir un constructeur</li>
+              <ul>
+                <li>par défaut, le compilateur fournit un constructeur sans arguments</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Accéder aux variables membres</h1>
+            <ul>
+              <li><em>intérieur de la classe</em> : utiliser leurs noms</li>
+              <pre><code data-trim contenteditable>
+public class Rectangle {
+
+  public int width = 0;
+  public int height = 0;
+
+  public printSize() {
+    System.out.println("Height: "+height);
+    System.out.println("Width: "+width);
+  }
+}
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Accéder aux variables membres</h1>
+            <ul>
+              <li><em>extérieur de la classe</em> : utiliser l’operateur dot (.)</li>
+              <ul>
+                <li>ne fonctionne que si les variables sont publiques</li>
+              </ul>
+              <pre><code data-trim contenteditable>
+Rectangle rect = new Rectangle( originOne, 100, 200 );
+System.out.println("Width: "+rect.width);
+System.out.println("Height: "+rect.height);
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Appeler les méthodes d’un objet</h1>
+            <pre><code data-trim contenteditable>
+public class Rectangle {
+
+  public int width = 0;
+  public int height = 0;
+
+  ...
+
+  public int getArea() {
+    return width * height;
+  }
+}
+            </code></pre>
+            <ul>
+              <li>appeler la méthode <code>getArea()</code></li>
+              <pre><code data-trim contenteditable>
+Rectangle rect = new Rectangle();
+System.out.println("Area: "+rect.getArea());
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Le ramasse-miettes (<i>garbage collector</i>)</h1>
+            <ul>
+              <li>pour certains langages, il est nécessaire de garder une trace de tous les objets créés et de les détruire explicitement lorsqu’ils ne sont plus utilisés</li>
+              <ul>
+                <li>gérer la mémoire est fastidieux et source d’erreurs</li>
+              </ul>
+              <li>la plateforme Java permet de créer autant d’objets que nécessaire sans se soucier de les détruire</li>
+              <li>l’environnement d’exécution Java supprime les objets quand il détermine qu’ils ne sont plus utilisés</li>
+              <li>affecter la valeur <code>null</code> pour supprimer un objet</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Plan</h1>
+            <ul>
+              <li>Classes et objets</li>
+              <ul>
+                <li class="shadow">Classes</li>
+                <li class="shadow">Objets</li>
+                <li>Plus sur les classes</li>
+                <li class="shadow">Les classes imbriquées</li>
+                <li class="shadow">Le type énumération</li>
+                <li class="shadow">La documentation du code</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Le mot-clé <code>this</code></h1>
+            <ul>
+              <li>utilisé pour accéder aux champs masqués par les paramètres d’une méthode / constructeur</li>
+            </ul>
+            <center>
+            <table>
+              <tr>
+                <td>
+                  <pre><code data-trim contenteditable>
+public class Point {
+
+  public int x = 0;
+  public int y = 0;
+
+  public Point(int a, int b) {
+    x = a;
+    y = b;
+  }
+}
+                  </code></pre>
+                </td>
+                <td>
+                  <pre><code data-trim contenteditable>
+public class Point {
+
+  public int x = 0;
+  public int y = 0;
+
+  public Point(int x, int y) {
+    this.x = x;
+    this.y = y;
+  }
+}
+                  </code></pre>
+                </td>
+              </tr>
+            </table>
+            </center>
+          </section>
+
+          <section>
+            <h1>Le mot-clé this (cont.)</h1>
+            <ul>
+              <li>utilisé pour appeler un constructeur de la classe</li>
+              <pre><code data-trim contenteditable>
+public class Rectangle {
+
+  private int x, y;
+  private int width, height;
+
+  public Rectangle() {
+    this(0, 0, 0, 0);
+  }
+
+  public Rectangle(int width, int height) {
+    this(0, 0, width, height);
+  }
+
+  public Rectangle(int x, int y, int width, int height) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+  }
+...
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Les modificateurs d’accès</h1>
+            <ul>
+              <li>les modificateurs d’accès déterminent si les autres classes peuvent utiliser une méthode ou un champ</li>
+              <li>deux niveaux de contrôle d’accès :</li>
+              <ul>
+                <li>au niveau de la classe, <code>public</code> ou sans modificateur</li>
+                <li>au niveau des membres, <code>public</code>, <code>private</code>, <code>protected</code>, sans modificateur</li>
+              </ul>
+            </ul>
+            <center>
+              <table class="booktabs">
+                <tr>
+                  <th>Modifier</th>
+                  <th>Class</th>
+                  <th>Package</th>
+                  <th>Subclass</th>
+                  <th>World</th>  
+                </tr>
+                <tr>
+                  <td><code>public</code></td>
+                  <td>Y</td>
+                  <td>Y</td>
+                  <td>Y</td>
+                  <td>Y</td>
+                </tr>
+                <tr>
+                  <td><code>protected</code></td>
+                  <td>Y</td>
+                  <td>Y</td>
+                  <td>Y</td>
+                  <td>N</td>
+                </tr>
+                <tr>
+                  <td><code>no modifier</code></td>
+                  <td>Y</td>
+                  <td>Y</td>
+                  <td>N</td>
+                  <td>N</td>
+                </tr>
+                <tr>
+                  <td><code>private</code></td>
+                  <td>Y</td>
+                  <td>N</td>
+                  <td>N</td>
+                  <td>N</td>
+                </tr>
+              </table>
+          </center>
+          </section>
+
+          <section>
+            <h1>Les modificateurs d’accès (cont.)</h1>
+            <img src="img/access-example.png" alt="img/access-example.png" width="50%"/>
+            <ul>
+              <li>le tableau montre où les membres de alpha sont visibles pour chaque modificateur</li>
+            </ul>
+            <center>
+              <table class="booktabs">
+                <tr>
+                  <th>Modifier</th>
+                  <th>Alpha</th>
+                  <th>Beta</th>
+                  <th>Alphasub</th>
+                  <th>Gamma</th>  
+                </tr>
+                <tr>
+                  <td><code>public</code></td>
+                  <td>Y</td>
+                  <td>Y</td>
+                  <td>Y</td>
+                  <td>Y</td>
+                </tr>
+                <tr>
+                  <td><code>protected</code></td>
+                  <td>Y</td>
+                  <td>Y</td>
+                  <td>Y</td>
+                  <td>N</td>
+                </tr>
+                <tr>
+                  <td><code>no modifier</code></td>
+                  <td>Y</td>
+                  <td>Y</td>
+                  <td>N</td>
+                  <td>N</td>
+                </tr>
+                <tr>
+                  <td><code>private</code></td>
+                  <td>Y</td>
+                  <td>N</td>
+                  <td>N</td>
+                  <td>N</td>
+                </tr>
+              </table>
+          </center>
+          </section>
+
+          <section>
+            <h1>Les modificateurs d’accès (cont.)</h1>
+            <pre><code data-trim contenteditable>
+// les gens peuvent utiliser cette classe
+public class Laundromat {
+
+  // les gens ne peuvent pas utiliser
+  // ce champ interne,
+  private Laundry[] dirty;
+
+  // mais ils peuvent utiliser ces
+  // methodes publiques afin de manipuler
+  // le champ interne
+  public void wash() {...}
+  public void dry() {...}
+
+  // une sous-classe peut modifier ce champ
+  protected int temperature;
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Les variables de classe</h1>
+            <ul>
+              <li>quand un certain nombre d’objets sont créés à partir d’une même classe, ils ont chacun leurs propres copies distinctes des variables d’instance</li>
+              <li>dans le cas de la classe <code>Bicycle</code>, les variables d’instance sont <code>cadence</code>, <code>gear</code> et <code>speed</code></li>
+              <ul>
+                <li>chaque instance de <code>Bicycle</code> a ses propres valeurs pour ces variables, stockées dans des emplacements mémoire différents</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Les variables de classe (cont.)</h1>
+            <ul>
+              <li>le modificateur <code>static</code> permet de créer des variables partagées par tous les objets</li>
+              <li>pour accéder à la variable <code>var</code> d’un objet <code>myObject</code>, instance la classe <code>MyClass</code></li>
+              <ul>
+                <li><code>MyClass.var</code> (recommandé)</li>
+                <li><code>myObject.var</code></li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Exemple de variable de classe</h1>
+            <ul>
+              <li>on veut créer plusieurs objets <code>Bicycle</code> et leur assigner à chacun un identifiant <code>id</code>, commençant à 1</li>
+              <ul>
+                <li><code>id</code> est unique à chaque objet &rightarrow; une variable d’instance</li>
+              </ul>
+              <li>on veut également un attribut qui permet de garder une trace du nombre d’objets <code>Bicycle</code> créés afin de savoir quel <code>id</code> sera attribué au prochain objet créé</li>
+              <ul>
+                <li>ce nombre n’est pas lié à un objet mais à la classe, c’est donc une variable de classe</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Exemple de variable de classe (cont.)</h1>
+            <pre><code data-trim contenteditable>
+public class Bicycle{
+
+  private int cadence;
+  private int gear;
+  private int speed;
+
+  private int id;
+  private static int numberOfBicycles = 0;
+
+  public Bicycle( int startCadence, int startSpeed, int startGear ) {
+    gear = startGear;
+    cadence = startCadence;
+    speed = startSpeed;
+    // increment number of Bicycles and assign ID number
+    id = ++numberOfBicycles;
+  }
+
+  // new method to return the ID instance variable
+  public int getID() {
+    return id;
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Les méthodes de classe</h1>
+            <ul>
+              <li><code>static</code> permet de créer des méthodes de classe</li>
+              <ul>
+                <li><code>ClassName.methodName(args)</code> (recommandé)</li>
+                <li><code>instanceName.methodName(args)</code></li>
+              </ul>
+              <li>les méthodes statiques peuvent être appelées sans avoir a créer une instance de la classe</li>
+              <li>les méthodes statiques sont le plus souvent utilisées pour accéder aux variables de classe</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Les méthodes de classe (cont.)</h1>
+            <ul>
+              <li>exemple avec l’ajout de la méthode ci-dessous :</li>
+              <pre><code data-trim contenteditable>
+public static int getNumberOfBicycles() {
+  return numberOfBicycles;
+}
+              </code></pre>
+              <li>pour accéder au nombre d’objets <code>Bicycle</code> créés :</li>
+              <pre><code data-trim contenteditable>
+Bicycle.getNumberOfBicycles()
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Les constantes</h1>
+            <ul>
+              <li>le modificateur <code>static</code>, combiné au modificateur <code>final</code> sert à définir des variables constantes</li>
+              <li><code>final</code> indique que la valeur de la variable ne peut pas changer</li>
+              <li>par exemple, la constance <code>PI</code> peut être définie par</li>
+              <pre><code data-trim contenteditable>
+static final double PI = 3.141592653589793;
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Questions : classes</h1>
+            <ul>
+              <li>considérons la classe suivante :</li>
+              <pre><code data-trim contenteditable>
+public class IdentifyMyParts {
+  public static int x = 7;
+  public int y = 3;
+}
+              </code></pre>
+              <ol>
+                <li>quelles sont les variables de classe ?</li>
+                <li>quelles sont les variables d’instance ?</li>
+                <li>quelle sera la sortie du code suivant ?</li>
+              </ol>
+              <pre><code data-trim contenteditable>
+IdentifyMyParts a = new IdentifyMyParts();
+IdentifyMyParts b = new IdentifyMyParts();
+a.y = 5;
+b.y = 6;
+a.x = 1;
+b.x = 2;
+System.out.println("a.y = " + a.y);
+System.out.println("b.y = " + b.y);
+System.out.println("a.x = " + a.x);
+System.out.println("b.x = " + b.x);
+System.out.println("IdentifyMyParts.x = " + IdentifyMyParts.x);
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Réponses : classes</h1>
+            <ul>
+              <li>considérons la classe suivante :</li>
+              <pre><code data-trim contenteditable>
+public class IdentifyMyParts {
+  public static int x = 7;
+  public int y = 3;
+}
+              </code></pre>
+              <ol>
+                <li>quelles sont les variables de classe ? <code>x</code></li>
+                <li>quelles sont les variables d’instance ? <code>y</code></li>
+                <li>quelle sera la sortie du code suivant ?</li>
+              </ol>
+              <pre><code data-trim contenteditable>
+a.y = 5
+b.y = 6
+a.x = 2
+b.x = 2
+IdentifyMyParts.x = 2
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Questions : objets</h1>
+            <ol>
+              <li>qui a-t-il de faux dans ce programme ?</li>
+              <pre><code data-trim contenteditable>
+public class SomethingIsWrong {
+  public static void main(String[] args) {
+    Rectangle myRect;
+    myRect.width = 40;
+    myRect.height = 50;
+    System.out.println("myRect’s area is " + myRect.area());
+  }
+}
+              </code></pre>
+              <li>combien de références aux objets existent après exécution du code ci-dessous ? les objets sont-ils détruits par le ramasses miettes ?</li>
+              <pre><code data-trim contenteditable>
+String[] students = new String[10];
+String studentName = "Peter Parker";
+students[0] = studentName;
+studentName = null;
+              </code></pre>
+              <li>comment un programme détruit-il un objet ?</li>
+            </ol>
+          </section>
+
+          <section>
+            <h1>Réponses : objets</h1>
+            <ol>
+              <li>le compilateur génère une erreur car l’objet Rectangle n’a pas été créé</li>
+                <pre><code data-trim contenteditable>
+Rectangle myRect = new Rectangle();
+                </code></pre>
+              
+              <li>une référence au tableau <code>students</code> et ce tableau a une référence à la chaine <code>Peter Smith</code>, aucun objet n’est admissible pour le ramasses miettes</li>
+              
+              <li>un programme ne mentionne pas explicitement la destruction des objets, il peut mettre la référence d’un objet à <code>null</code> afin qu’il devienne admissible pour le ramasses miettes</li>
+            </ol>
+          </section>
+
+          <section>
+            <h1>Plan</h1>
+            <ul>
+              <li>Classes et objets</li>
+              <ul>
+                <li class="shadow">Classes</li>
+                <li class="shadow">Objets</li>
+                <li class="shadow">Plus sur les classes</li>
+                <li>Les classes imbriquées</li>
+                <li class="shadow">Le type énumération</li>
+                <li class="shadow">La documentation du code</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Les classes imbriquées</h1>
+            <ul>
+              <li>il est possible de définir une classe à l’intérieur d’une autre classe : on parle alors de classe imbriquée</li>
+              <li>deux catégories de classes imbriquées :</li>
+              <ul>
+                <li>les <em>classes imbriquées statiques</em>, déclarées static</li>
+                <li>les classes non-statiques appelées <em>classes internes</em></li>
+              </ul>
+            </ul>
+            <pre><code data-trim contenteditable>
+class OuterClass {
+  ...
+  static class StaticNestedClass {
+    ...
+  }
+  class InnerClass {
+    ...
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Pourquoi utiliser des classes imbriquées ?</h1>
+            <ul>
+              <li><em>regroupement logique de classes</em></li>
+              <ul>
+                <li>si une classe n’est utile que pour une autre classe, il est alors logique de l’intégrer dans cette classe</li>
+              </ul>
+              <li><em>augmentation de l’encapsulation</em></li>
+              <ul>
+                <li>considérons deux classes A et B, où B a besoin d’accéder aux membres de A qui devraient être privés. En imbriquant la classe B dans A, les membres de A déclarés comme privés sont accessibles par B</li>
+              </ul>
+              <li>du code plus lisible et plus facile à maintenir</li>
+              <ul>
+                <li>imbriquer les petites classes dans des classes de niveau supérieur</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Exemple de classes imbriquées</h1>
+            <pre><code data-trim contenteditable>
+public class OuterClass {
+  private int privateMemberVariable = 100;
+  
+  public class InnerClass {
+    public void printPrivateVariable() {
+      System.out.println(privateMemberVariable);
+    }
+  }
+
+  public void callInnerClassMethod() {
+    InnerClass innerClass = new InnerClass();
+    innerClass.printPrivateVariable();
+  }
+
+  public static void main(String args[]) {
+    OuterClass outerClass = new OuterClass();
+    outerClass.callInnerClassMethod();
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Plan</h1>
+            <ul>
+              <li>Classes et objets</li>
+              <ul>
+                <li class="shadow">Classes</li>
+                <li class="shadow">Objets</li>
+                <li class="shadow">Plus sur les classes</li>
+                <li class="shadow">Les classes imbriquées</li>
+                <li>Le type énumération</li>
+                <li class="shadow">La documentation du code</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Le type énumération</h1>
+            <ul>
+              <li>le type <code>enum</code> est un type dont les champs se composent d’un ensemble fixe de constantes</li>
+              <ul>
+                <li>champs en majuscules car se sont des constantes</li>
+              </ul>
+            </ul>
+            <pre><code data-trim contenteditable>
+enum Direction {
+  NORTH, SOUTH, EAST, WEST
+};
+Direction.NORTH // access to NORTH
+
+enum Day {
+  SUNDAY, MONDAY, TUESDAY, WEDNESDAY,
+  THURSDAY, FRIDAY, SATURDAY
+};
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Le type énumération (cont.)</h1>
+            <ul>
+              <li>une énumération est une classe spéciale qui fournit un type sécurisé de données constantes</li>
+            </ul>
+            <pre><code data-trim contenteditable>
+enum HandSign {
+  SCISSOR, PAPER, STONE
+};
+...
+
+HandSign playerMove;
+HandSign computerMove;
+
+playerMove = HandSign.SCISSOR;
+computerMove = HandSign.PAPER;
+
+// playerMove = 0; // Compilation error
+            </code></pre>
+          </section>
+
+          <section>
+            <h1><code>EnumTest</code></h1>
+            <pre><code data-trim contenteditable>
+public class EnumTest {
+  Day day;
+
+  public EnumTest(Day day) {
+    this.day = day;
+  }
+
+  public void tellItLikeItIs() {
+    switch (day) {
+      case FRIDAY:
+        System.out.println("Fridays are better.");
+        break;
+
+      default:
+        System.out.println("Other days are so-so.");
+        break;
+    }
+  }
+
+  public static void main(String[] args) {
+    EnumTest firstDay = new EnumTest(Day.MONDAY);
+    firstDay.tellItLikeItIs();
+    EnumTest fifthDay = new EnumTest(Day.FRIDAY);
+    fifthDay.tellItLikeItIs();
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Parcourir une énumération</h1>
+            <pre><code data-trim contenteditable>
+enum Direction {
+  NORTH, SOUTH, EAST, WEST
+};
+
+public class EnumLoop {
+  public static void main(String[] args) {
+    // loop using for
+    for (Direction d : Direction.values()) {
+      System.out.println(d);
+    }
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Plan</h1>
+            <ul>
+              <li>Classes et objets</li>
+              <ul>
+                <li class="shadow">Classes</li>
+                <li class="shadow">Objets</li>
+                <li class="shadow">Plus sur les classes</li>
+                <li class="shadow">Les classes imbriquées</li>
+                <li class="shadow">Le type énumération</li>
+                <li>La documentation du code</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>La documentation du code</h1>
+            <ul>
+              <li>Java permet de documenter les classes et leurs membres en utilisant des commentaires</li>
+              <pre><code data-trim contenteditable>
+/**
+  Une classe pour donner un
+  <b>exemple</b> de
+  documentation HTML.
+*/
+public class Exemple
+{
+  /**
+    Documentation du membre de
+    type entier nomme exemple...
+  */
+  public int exemple;
+}
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>La documentation du code (cont.)</h1>
+            <ul>
+              <li>un commentaire de documentation est placé juste avant l’entité commentée (classe, constructeur, etc.)</li>
+              <li>des attributs spéciaux peuvent être définis avec @</li>
+              <pre><code data-trim contenteditable>
+/**
+  Obtenir la somme de deux entiers.
+  @param a Le premier nombre entier.
+  @param b Le deuxieme nombre entier.
+  @return La valeur de la somme des deux entiers.
+*/
+public int somme(int a, int b) {
+  return a+b;
+}
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>La documentation du code (cont.)</h1>
+            <center>
+              <table class="booktabs">
+                <tr>
+                  <th>Attribut</th>
+                  <th>Description</th>
+                </tr>
+                <tr>
+                  <td><code>@author</code></td>
+                  <td>nom de l’auteur de la classe</td>
+                </tr>
+                <tr>
+                  <td><code>@version</code></td>
+                  <td>version de la classe</td>
+                </tr>
+                <tr>
+                  <td><code>@deprecated</code></td>
+                  <td>marquer l’entité comme obsolète, décrire pourquoi et par quoi la remplacer</td>
+                </tr>
+                <tr>
+                  <td><code>@see</code></td>
+                  <td>ajouter un lien dans la section "Voir aussi"</td>
+                </tr>
+                <tr>
+                  <td><code>@param</code></td>
+                  <td>décrire un paramètre de méthode</td>
+                </tr>
+                <tr>
+                  <td><code>@return</code></td>
+                  <td>décrire la valeur retournée par une méthode</td>
+                </tr>
+              </table>
+            </center>
+          </section>
+
+          <section>
+            <h1>La documentation du code (cont.)</h1>
+            <pre><code data-trim contenteditable>
+/**
+  Une classe d’exemple.
+*/
+public class Exemple {
+  /**
+    Obtenir le carre d’un entier.
+    @param a Le nombre entier.
+    @return La valeur de du carre de l’entier.
+  */
+  public int carre(int a) {
+    return a*a;
+  }
+}
+            </code></pre>
+            <ul>
+              <li>commande pour générer la javadoc</li>
+              <pre><code data-trim contenteditable>
+javadoc -d src/doc/ src/Exemple.java
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Exemple de javadoc</h1>
+            <center>
+              <img src="img/javadoc.png" alt="javadoc.png" width="100%" />
+            </center>
+          </section>
+
+          <section data-background="#FFCCCC">
+            <h1>Résumé des notions abordées</h1>
+            <ul>
+              <li>Classes : déclaration, constructeurs, surcharge de méthodes, passage de paramètres, modifieurs d'accès, classes imbriquées</li>
+              <li>Objets : instanciation, accès aux membres</li>
+              <li>Enumérations, documentation du code</li>
+            </ul>
+          </section>
+
+      </div>
+    </div>
+
+    <script src="reveal.js/lib/js/head.min.js"></script>
+    <script src="reveal.js/js/reveal.min.js"></script>
+
+    <script>
+
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+    controls: false,
+    progress: true,
+    history: true,
+    center: true,
+    slideNumber: true,
+
+    theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+    transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+    // Parallax scrolling
+    // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+    // parallaxBackgroundSize: '2100px 900px',
+
+    // Optional libraries used to extend on reveal.js
+    dependencies: [
+    { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+    { src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+    { src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+    { src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+    { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+    { src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+    ]
+    });
+
+    </script>
+
+  </body>
+
+</html>

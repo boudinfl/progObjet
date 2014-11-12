@@ -36,7 +36,7 @@
           <section>
             <h1>Programmation Objet</h1>
             <h2>Florian Boudin</h2>
-            <h3>Révision 3 du 24 juillet 2014</h3>
+            <h3>Révision 3 du 25 juillet 2014</h3>
             <h4>Classe 1 : <em>Introduction à la programmation objet</em></h4>
           </section>
 
@@ -139,14 +139,14 @@
                 <li>un état stocké dans des <em>champs</em> &rarr; variables</li>
                 <li>un comportement défini par des <em>méthodes</em> &rarr; fonctions</li>
               </ul>
-              <li>les méthodes modifient l’état interne d'un objet et permettent aux objets de communiquer</li>
+              <li>les méthodes modifient l'état interne d'un objet et permettent aux objets de communiquer</li>
             </ul>
           </section>
 
           <section>
             <h1>Représenter un objet</h1>
             <center>
-              <table>
+              <table style="border:0;">
                 <tr>
                   <td style="vertical-align:middle;">
                     <img src="img/concepts-object.png" alt="concepts-object.png">
@@ -179,7 +179,7 @@
             <ul>
               <li><em>modularité</em></li>
               <ul>
-                <li>le code source d’un objet peut être écrit et maintenu indépendamment de celui d’autres objets</li>
+                <li>le code source d'un objet peut être écrit et maintenu indépendamment de celui d'autres objets</li>
               </ul>
               <li><em>encapsulation</em></li>
               <ul>
@@ -188,7 +188,7 @@
               <li><em>réutilisation du code</em></li>
               <ul>
                 <li>un objet existant peut être utilisé dans votre programme</li>
-                <li>déléguer le développement d’objets complexes à des spécialistes</li>
+                <li>déléguer le développement d'objets complexes à des spécialistes</li>
               </ul>
             </ul>
           </section>
@@ -223,11 +223,11 @@
           </section>
 
           <section>
-            <h1>Qu’est ce qu'une classe ?</h1>
+            <h1>Qu'est ce qu'une classe ?</h1>
             <ul>
               <li>il existe des milliers de vélos, tous construits sur le même modèle et partageant les mêmes composants</li>
-              <li>une <em>classe</em> est une description des caractéristiques d’un ou de plusieurs objets</li>
-              <li>un objet créé à partir d’une classe est une <em>instance</em> de la classe</li>
+              <li>une <em>classe</em> est une description des caractéristiques d'un ou de plusieurs objets</li>
+              <li>un objet créé à partir d'une classe est une <em>instance</em> de la classe</li>
               <ul>
                 <li>e.g. le vélo de Pierre est une <em>instance</em> de la classe <em>vélo</em></li>
               </ul>
@@ -272,8 +272,8 @@ class Bicycle {
               <li>les méthodes définissent les interactions de l'objet avec le monde extérieur</li>
               <li>il n'y a pas de méthode <code>main</code></li>
               <ul>
-                <li>il ne s’agit pas d’une application mais d’un modèle pour des vélos qui pourraient être utilisés dans une application</li>
-                <li>la responsabilité de créer et d’utiliser de nouveaux objets vélo appartient à une autre classe dans votre application</li>
+                <li>il ne s'agit pas d'une application mais d'un modèle pour des vélos qui pourraient être utilisés dans une application</li>
+                <li>la responsabilité de créer et d'utiliser de nouveaux objets vélo appartient à une autre classe dans votre application</li>
               </ul>
             </ul>
           </section>
@@ -325,14 +325,14 @@ class BicycleDemo {
           </section>
 
           <section>
-            <h1>Qu’est ce que l’héritage ?</h1>
+            <h1>Qu'est ce que l'héritage ?</h1>
             <ul>
               <li>les VTT et les tandems partagent les caractéristiques des vélos mais ils en ont aussi des nouvelles :</li>
               <ul>
                 <li>deux selles et deux guidons pour les tandems</li>
                 <li>un pédalier compact pour les VTT</li>
               </ul>
-              <li>en programmation objet, les classes peuvent hériter des champs et des méthodes d’autres classes</li>
+              <li>en programmation objet, les classes peuvent hériter des champs et des méthodes d'autres classes</li>
               <li>exemple de classe <code>MountainBike</code></li>
               <ul>
                 <li><code>Bicycle</code> est la <em>super-classe</em> de <code>MountainBike</code></li>
@@ -348,7 +348,7 @@ class BicycleDemo {
               <li>syntaxe pour créer une sous-classe :</li>
               <ul>
                 <li>mot-clé <code>extends</code> suivi du nom de la classe à hériter</li>
-                <li>en Java, une classe ne peut avoir qu’une super-classe et une super-classe peut avoir un nombre illimité de sous-classes</li>
+                <li>en Java, une classe ne peut avoir qu'une super-classe et une super-classe peut avoir un nombre illimité de sous-classes</li>
               </ul>
             </ul>
           </section>
@@ -384,19 +384,19 @@ class MountainBike extends Bicycle {
           </section>
 
           <section>
-            <h1>Qu’est ce qu’une interface ?</h1>
+            <h1>Qu'est ce qu'une interface ?</h1>
             <ul>
-              <li>les objets définissent leurs interactions avec le monde extérieur par le biais des méthodes qu’elles exposent</li>
-              <li>les méthodes forment l’<em>interface</em> de l’objet avec le monde extérieur</li>
+              <li>les objets définissent leurs interactions avec le monde extérieur par le biais des méthodes qu'elles exposent</li>
+              <li>les méthodes forment l'<em>interface</em> de l'objet avec le monde extérieur</li>
               <ul>
-                <li>e.g. les boutons sur votre téléviseur sont l’interface entre vous et le câblage électrique de l’autre côté du boîtier</li>
+                <li>e.g. les boutons sur votre téléviseur sont l'interface entre vous et le câblage électrique de l'autre côté du boîtier</li>
               </ul>
               <li>dans sa forme la plus commune, une interface est un ensemble de méthodes vides</li>
             </ul>
           </section>
 
           <section>
-            <h1>L’interface de <code>Bicycle</code></h1>
+            <h1>L'interface de <code>Bicycle</code></h1>
             <pre><code data-trim contenteditable>
 interface Bicycle {
 
@@ -423,8 +423,8 @@ class Bicloo implements Bicycle {
 }
             </code></pre>
             <ul>
-              <li>implémenter une interface permet de définir formellement le comportement d’une classe</li>
-              <li>le compilateur vérifie si <em>toutes</em> les méthodes définies dans l’interface sont présentes dans le code source de la classe</li>
+              <li>implémenter une interface permet de définir formellement le comportement d'une classe</li>
+              <li>le compilateur vérifie si <em>toutes</em> les méthodes définies dans l'interface sont présentes dans le code source de la classe</li>
             </ul>
           </section>
 
@@ -444,7 +444,7 @@ class Bicloo implements Bicycle {
           </section>
 
           <section>
-            <h1>Qu’est ce qu’un package ?</h1>
+            <h1>Qu'est ce qu'un package ?</h1>
             <ul>
               <li>un <i>package</i> (paquet) est un mécanisme de nommage qui permet de regrouper les classes et interfaces</li>
               <li>concept similaire au principe des répertoires</li>
@@ -456,7 +456,7 @@ class Bicloo implements Bicycle {
           </section>
 
           <section>
-            <h1>L’API Java</h1>
+            <h1>L'API Java</h1>
             <ul>
               <li>Java fourni une bibliothèque de classes que vous pouvez utiliser dans vos applications</li>
               <ul>
@@ -490,10 +490,10 @@ class Bicloo implements Bicycle {
             <h1>Questions</h1>
             <ol>
               <li>les objets réels partagent deux caractéristiques : un ____ et un __________</li>
-              <li>l’état d’un objet est stocké dans des ______</li>
-              <li>le comportement d’un objet est défini par des ________</li>
-              <li>masquer les données d’une classe et y empêcher l’accès par un autre moyen que les méthodes est le principe d’_____________</li>
-              <li>une ______ est une description des caractéristiques d’un ou de plusieurs objets</li>
+              <li>l'état d'un objet est stocké dans des ______</li>
+              <li>le comportement d'un objet est défini par des ________</li>
+              <li>masquer les données d'une classe et y empêcher l'accès par un autre moyen que les méthodes est le principe d'_____________</li>
+              <li>une ______ est une description des caractéristiques d'un ou de plusieurs objets</li>
             </ol>
           </section>
 
@@ -501,10 +501,10 @@ class Bicloo implements Bicycle {
             <h1>Réponses</h1>
             <ol>
               <li>les objets réels partagent deux caractéristiques : un état et un comportement</li>
-              <li>l’état d’un objet est stocké dans des champs</li>
-              <li>le comportement d’un objet est défini par des méthodes</li>
-              <li>masquer les données d’une classe et y empêcher l’accès par un autre moyen que les méthodes est le principe d’encapsulation</li>
-              <li>une classe est une description des caractéristiques d’un ou de plusieurs objets</li>
+              <li>l'état d'un objet est stocké dans des champs</li>
+              <li>le comportement d'un objet est défini par des méthodes</li>
+              <li>masquer les données d'une classe et y empêcher l'accès par un autre moyen que les méthodes est le principe d'encapsulation</li>
+              <li>une classe est une description des caractéristiques d'un ou de plusieurs objets</li>
             </ol>
           </section>
 
@@ -530,14 +530,7 @@ class Bicloo implements Bicycle {
 
           <section data-background="#FFCCCC">
             <h1>Etude de cas : Tetris</h1>
-            <ul>
-              <li>quels sont les objets/classes nécessaires ?</li>
-              <ul>
-                <li>quels sont les états possibles de chaque objet ?</li>
-                <li>quels sont les comportements possibles de chaque objet ?</li>
-              </ul>
-
-            </ul>
+            <img src="img/tetris.jpg" alt="img/tetris.jpg" width="80%">
           </section>
 
       </div>

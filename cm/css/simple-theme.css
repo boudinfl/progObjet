@@ -25,11 +25,11 @@ body {
   max-height: 100%;
 }
 
-table.schema_classe {
+table.schema_classe, table.booktabs {
   border-collapse: collapse;
 }
 
-table.schema_classe td, table.schema_classe th {
+table.schema_classe td, table.schema_classe th, table.booktabs td, table.booktabs th {
   border: 2px solid black;
   padding: 5px;
 }
@@ -38,6 +38,12 @@ table.schema_classe th {
   font-weight: bold;
   color: blue;
 }
+
+table.booktabs th {
+  font-weight: bold;
+  color: Crimson;
+}
+
 
 ::selection {
   color: white;

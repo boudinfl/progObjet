@@ -36,35 +36,958 @@
           <section>
             <h1>Programmation Objet</h1>
             <h2>Florian Boudin</h2>
-            <h3>Révision 3 du 24 juillet 2014</h3>
+            <h3>Révision 3 du 25 juillet 2014</h3>
             <h4>Classe 2 : <em>Les bases du langage Java</em></h4>
           </section>
 
           <section>
             <h1>Plan</h1>
             <ul>
-              <li>Introduction à la programmation objet</li>
+              <li>Les bases du langage Java</li>
               <ul>
-                <li>Objets</li>
-                <li>Classes</li>
-                <li>Héritage</li>
-                <li>Interfaces</li>
-                <li>Packages</li>
-                <li>Questions-Réponses</li>
+                <li>Variables</li>
+                <li>Opérateurs</li>
+                <li>Structures de contrôle</li>
+                <li>Conversions de types primitifs</li>
               </ul>
             </ul>
           </section>
 
           <section>
-            <h1></h1>
+            <h1>Les variables</h1>
             <ul>
-              <li></li>
+              <li>l'état d'un objet est stocké dans des champs</li>
+              <pre><code data-trim contenteditable>
+int cadence = 0;
+int speed = 0;
+int gear = 1;
+              </code></pre>
+              <li>en Java, les champs sont également appelés <em>variables</em></li>
+              <li>quelles sont les règles pour définir une variable ?</li>
+              <li>quels sont les différents types de variables ?</li>
+              <li>doit-on initialiser les variables lorsqu'elles sont déclarées ?</li>
+              <li>une valeur par défaut est-elle assignée aux variables non explicitement initialisées ?</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Les variables d'instances</h1>
+            <ul>
+              <li>les états des objets sont stockés dans des variables non-statiques, déclarées <em>sans</em> le mot-clé <code>static</code></li>
+              <li>les valeurs des variables d'instances sont propres à chaque instance d'une classe : <code>speed</code> d'un vélo est indépendant de <code>speed</code> d'un autre</li>
+            </ul>
+            <pre><code data-trim contenteditable>
+class Bicycle {
+
+  int cadence = 0;
+  int speed = 0;
+  int gear = 1;
+  ...
+              </code></pre>
+          </section>
+
+          <section>
+            <h1>Les variables de classe</h1>
+            <ul>
+              <li>une variable de classe est déclarée <em>avec</em> le modificateur <code>static</code>, indiquant au compilateur qu'il existe exactement une copie de cette variable, indépendamment de combien de fois la classe a été instanciée</li>
+              <li>le code <code>static int numGears = 6;</code> pourrait être utilisé pour définir le nombre de vitesse d'un vélo</li>
+              <li>le mot-clé <code>final</code> pourrait être ajouté pour indiquer que le nombre de vitesse ne changera jamais</li>
+            </ul>
+            <pre><code data-trim contenteditable>
+class Bicycle {
+  
+  static int numGears = 6;
+  ...
+              </code></pre>
+          </section>
+
+          <section>
+            <h1>Les variables locales</h1>
+            <ul>
+              <li>la syntaxe pour déclarer une variable locale est la même que pour une variables d'instance : il n'y a pas de mot-clé, e.g. <code>int count = 0;</code></li>
+              <li>les variables locales ne sont visibles que dans les méthodes dans lesquelles elles ont été déclarées, elles ne sont pas accessibles depuis le reste de la classe</li>
+            </ul>
+            <pre><code data-trim contenteditable>
+void afficherDix() {
+  int n = 10;
+  System.out.println(n);
+}
+              </code></pre>
+          </section>
+
+          <section>
+            <h1>Les paramètres</h1>
+            <ul>
+              <li>les paramètres correspondent aux variables passées aux méthodes</li>
               <ul>
-                <li></li>
+                <li>dans la méthode <code>somme</code>, les variables <code>a</code> et <code>b</code> sont des paramètres</li>
+              </ul>
+            </ul>
+            <pre><code data-trim contenteditable>
+public int somme(int a, int b) {
+  int c = a + b;
+  return c;
+}
+              </code></pre>
+          </section>
+
+          <section>
+            <h1>Nommer les variables</h1>
+            <ul>
+              <li>chaque langage de programmation a ses propres règles et conventions pour les noms de variables</li>
+              <li>les noms de variables sont sensibles à la casse</li>
+              <li>le nom d'une variable peut être une séquence de longueur illimitée de lettres et de chiffres, commençant par une lettre</li>
+              <ul>
+                <li>éviter d'utiliser le dollar (<code>$</code>) ou underscore (<code>_</code>)</li>
+              </ul>
+              <li>les espaces ne sont pas autorisés</li>
+              <li>quelques conventions</li>
+              <ul>
+                <li>un mot : <code>gear</code>, deux mots : <code>gearRatio</code>, etc.</li>
+                <li>variable avec valeur constante : <code>NUM_GEARS</code></li>
+                <li><em>utiliser des noms intelligibles !</em></li>
               </ul>
             </ul>
           </section>
 
+          <section>
+            <h1>Les types de données primitifs</h1>
+            <ul>
+              <li>Java est un langage de programmation à typage statique, ce qui signifie que toutes les variables doivent d'abord être déclarées avant d'être utilisées</li>
+              <pre><code data-trim contenteditable>
+int gear = 1;
+              </code></pre>
+              <li>ceci dit au programme qu'une variable nommée <code>gear</code> existe, qu'elle contient un entier, et qu'elle a une valeur initiale de 1</li>
+              <li>le type détermine les valeurs qu'une variable peut contenir, en plus des opérations qui peuvent être effectuées</li>
+              <li>Java prend en charge 8 types de données primitifs</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Les 8 types de données primitifs</h1>
+            <ul>
+              <li><code>byte</code> : entier signé codé sur 8-bits (1 octet), compris entre -128 et 127</li>
+              <li><code>short</code> : entier signé codé sur 16-bits (2 octets), compris entre -32 768 et 32 767</li>
+              <li><code>int</code> : entier signé codé sur 32-bits (4 octets), compris entre -2 147 483 648 et 2,147,483,647</li>
+              <li><code>long</code> : entier signé codé sur 64-bits (8 octets), compris entre -9 223 372 036 854 775 808 et 9 223 372 036 854 775 807</li>
+              <li><code>float</code> : réel signé codé sur 32-bits (4 octets)</li>
+              <li><code>double</code> : réel signé codé sur 64-bits (8 octets)</li>
+              <li><code>boolean</code> : a deux valeurs possibles, <code>true</code> et <code>false</code></li>
+              <li><code>char</code> : caractère unicode codé sur 16-bits (2 octets)</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Les valeurs par défaut</h1>
+            <center>
+              <table class="booktabs">
+                <tr><th>Type</th><th>Valeur par défaut</th></tr>
+                <tr><td><code>byte</code></td><td>0</td></tr>
+                <tr><td><code>short</code></td><td>0</td></tr>
+                <tr><td><code>int</code></td><td>0</td></tr>
+                <tr><td><code>long</code></td><td>0L</td></tr>
+                <tr><td><code>float</code></td><td>0.0f</td></tr>
+                <tr><td><code>double</code></td><td>0.0d</td></tr>
+                <tr><td><code>char</code></td><td>'\u0000'</td></tr>
+                <tr><td><code>boolean</code></td><td>false</td></tr>
+              </table>
+            </center>
+          </section>
+
+          <section>
+            <h1>Les tableaux</h1>
+            <ul>
+              <li>un tableau est un objet conteneur qui détient un nombre fixe de valeurs d'un seul type</li>
+              <li>la taille d'un tableau est fixe et spécifiée à sa création</li>
+              <center>
+                <img width="60%" src="img/objects-tenElementArray.png" alt="objects-tenElementArray.png">
+              </center>
+              <li>les cases d'un tableau sont appelés éléments</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Les tableaux (cont.)</h1>
+            <ul>
+              <li>un index numérique permet d'accéder aux éléments</li>
+              <li>l'index commence à 0, e.g. l'index 8 &rarr; le 9ème élément</li>
+              <li>pour <em>déclarer</em> une variable faisant référence à un tableau</li>
+            </ul>
+            <pre><code data-trim contenteditable>
+int[] unTableau;
+byte[] unTableauDeBytes;
+float[] unTableauDeReels;
+boolean[] unTableauDeBouleens;
+            </code></pre>
+          </section>
+
+           <section>
+            <h1>Les tableaux (cont.)</h1>
+            <ul>
+              <li>pour <em>initialiser</em> un tableau</li>
+              <pre><code data-trim contenteditable>
+unTableau = new int[10];
+              </code></pre>
+              <li>l'opérateur <code>new</code> est utilisé pour créer un tableau : le programme alloue assez de mémoire pour 10 éléments entiers et assigne le tableau à la variable <code>unTableau</code></li>
+              <li>pour <em>assigner</em> des valeurs aux éléments du tableau</li>
+              <pre><code data-trim contenteditable>
+unTableau[0] = 4; // initialize first element
+unTableau[1] = 6; // etc.
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Les tableaux (cont.)</h1>
+            <ul>
+              <li>pour <em>accéder</em> à un élément d'un tableau</li>
+              <pre><code data-trim contenteditable>
+System.out.println("Element 1:"+unTableau[0]);
+System.out.println("Element 2:"+unTableau[1]);
+System.out.println("Element 3:"+unTableau[2]);
+              </code></pre>
+              <li>alternative pour <em>déclarer</em> et <em>initialiser</em> un tableau en une seule ligne</li>
+              <pre><code data-trim contenteditable>
+int[] unTableau = {3, 4, 5, 6, 1, 9, 2};
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Les tableaux (cont.)</h1>
+            <ul>
+              <li>Il est possible de créer des tableaux de plus de 1 dimension</li>
+              <pre><code data-trim contenteditable>
+int[] small = new int[10];
+int[][] big = new int[10][10];
+int[][][] bigger = new int[10][10][10];
+              </code></pre>
+              <li>pour accéder aux éléments</li>
+              <pre><code data-trim contenteditable>
+System.out.println(big[0][2]);
+System.out.println(bigger[1][3][8]);
+              </code></pre>
+              <li>pour <em>copier</em> un tableau : la méthode <code>arraycopy</code> de la classe <code>System</code></li>
+              <pre><code data-trim contenteditable>
+public static void arraycopy( Object src, int srcPos,
+                              Object dest, int destPos, 
+                              int length )
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Exemple de copie de tableau</h1>
+            <pre><code data-trim contenteditable>
+char[] copyFrom = {'d','e','c','a','f',
+                   'f','e','i','n','a',
+                   't','e','d'};
+
+char[] copyTo = new char[7];
+
+System.arraycopy(copyFrom, 2, copyTo, 0, 7);
+
+System.out.println(new String(copyTo));
+// affiche caffein
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Questions</h1>
+            <ul>
+              <li>qu'est ce qu'une variable d'instance ?</li>
+              <li>qu'est ce qu'une variable de classe ?</li>
+              <li>une variable locale permet de stocker un état temporaire, elle est déclarée dans une _______</li>
+              <li>quels sont les 8 types de données primitifs ?</li>
+              <li>un _______ est un objet qui contient un nombre fixe de valeurs du même type</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Réponses</h1>
+            <ul>
+              <li>qu'est ce qu'une variable d'instance ?</li>
+              <ul>
+                <li>champ non-statique</li>
+              </ul>
+              <li>qu'est ce qu'une variable de classe ?</li>
+              <ul>
+                <li>champ statique</li>
+              </ul>
+              <li>une variable locale permet de stocker un état temporaire, elle est déclarée dans une méthode</li>
+              <li>quels sont les 8 types de données primitifs ?</li>
+              <ul>
+                <li><code>byte, short, int, long, float, double, boolean, char</code></li>
+              </ul>
+              <li>un tableau est un objet qui contient un nombre fixe de valeurs du même type</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Plan</h1>
+            <ul>
+              <li>Les bases du langage Java</li>
+              <ul>
+                <li class="shadow">Variables</li>
+                <li>Opérateurs</li>
+                <li class="shadow">Structures de contrôle</li>
+                <li class="shadow">Conversions de types primitifs</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Les opérateurs</h1>
+            <ul>
+              <li>maintenant que vous avez appris comment déclarer et initialiser des variables, vous voulez probablement savoir comment faire quelque chose avec elles !</li>
+              <li>les <em>opérateurs</em> sont des symboles spéciaux qui effectuent des opérations spécifiques sur un, deux, ou trois opérandes, puis renvoie un résultat</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Les opérateurs (cont.)</h1>
+            <ul>
+              <li>les opérateurs n'ont pas le même niveau de priorité : les opérateurs qui ont la <em>plus haute priorité</em> sont évalués <em>avant</em></li>
+              <ul>
+                <li>e.g. 5 + 3 &times; 2</li>
+              </ul>
+              <li>quand deux opérateurs ont le même niveau de priorité</li>
+              <ul>
+                <li>de la gauche vers la droite sauf pour les opérateurs d'assignement</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Priorité des opérateurs</h1>
+            <center>
+              <table class="booktabs">
+                <tr><th>Operateur</th><th>Exemple</th></tr>
+                <tr><td>postfix</td><td><code>expr++ expr--</code></td></tr>
+                <tr><td>unary</td><td><code>++expr --expr</code></td></tr>
+                <tr><td>multiplicative</td><td><code>* / %</code></td></tr>
+                <tr><td>additive</td><td><code>+ -</code></td></tr>
+                <tr><td>relational</td><td><code>&lt; &gt; &lt;= &gt;= instanceof</code></td></tr>
+                <tr><td>equality</td><td><code>== !=</code></td></tr>
+                <tr><td>logical AND</td><td><code>&amp;&amp;</code></td></tr>
+                <tr><td>logical OR</td><td><code>||</code></td></tr>
+                <tr><td>assignment</td><td><code>= += -= *= /= %=</code></td></tr>
+              </table>
+            </center>
+          </section>
+
+          <section>
+            <h1>Présentation des opérateurs</h1>
+            <ul>
+              <li>l'opérateur <code>=</code> permet d'assigner une valeur à droite dans l'opérande à gauche</li>
+              <pre><code data-trim contenteditable>
+int cadence = 0;
+int speed = 0;
+int gear = 1;
+            </code></pre>
+              <li>les opérateurs arithmétiques</li>
+              <pre><code data-trim contenteditable>
++ // additive operator (also String concatenation)
+- // subtraction operator
+* // multiplication operator
+/ // division operator
+% // remainder operator
+            </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>ArithmeticDemo</h1>
+            <pre><code data-trim contenteditable>
+class ArithmeticDemo {
+  public static void main (String[] args){
+    int result = 1 + 2; // result is now 3
+    System.out.println(result);
+
+    result = result - 1; // result is now 2
+    System.out.println(result);
+
+    result = result * 2; // result is now 4
+    System.out.println(result);
+
+    result = result / 2; // result is now 2
+    System.out.println(result);
+
+    result = result + 8; // result is now 10
+    result = result % 7; // result is now 3
+    System.out.println(result);
+  }
+}
+          </code></pre>
+          </section>
+
+          <section>
+            <h1>ConcatDemo</h1>
+            <pre><code data-trim contenteditable>
+class ConcatDemo {
+  public static void main(String[] args){
+    String firstString = "This is";
+    String secondString = " a concatenated string.";
+
+    String thirdString = firstString + secondString;
+    System.out.println(thirdString);
+    // This is a concatenated string.
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Présentation des opérateurs</h1>
+            <ul>
+              <li>les opérateurs unaires ne nécessitent qu'une seule opérande et permettent d'effectuer diverses opérations telles qu'incrémenter une valeur inverser la valeur d'un booléen</li>
+              <pre><code data-trim contenteditable>
++  // Unary plus operator
+-  // Unary minus operator
+++ // Increment operator
+-- // Decrement operator
+!  // Logical complement operator
+              </code></pre>
+              <li><em>attention</em> : <code>++i</code> n'est pas identique à <code>i++</code></li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>UnaryDemo</h1>
+            <pre><code data-trim contenteditable>
+class UnaryDemo {
+  public static void main(String[] args){
+    int result = +1; // result is now 1
+    System.out.println(result);
+
+    result--; // result is now 0
+    System.out.println(result);
+
+    result++; // result is now 1
+    System.out.println(result);
+
+    result = -result; // result is now -1
+    System.out.println(result);
+
+    boolean success = false;
+    System.out.println(success); // false
+    System.out.println(!success); // true
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>PrePostDemo</h1>
+            <pre><code data-trim contenteditable>
+class PrePostDemo {
+  public static void main(String[] args){
+    int i = 3;
+    i++;
+    System.out.println(i);   // "4"
+    ++i;
+    System.out.println(i);   // "5"
+    System.out.println(++i); // "6"
+    System.out.println(i++); // "6"
+    System.out.println(i);   // "7"
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Présentation des opérateurs</h1>
+            <ul>
+              <li>opérateurs de comparaison</li>
+              <pre><code data-trim contenteditable>
+== // equal to
+!= // not equal to
+&gt;  // greater than
+&gt;= // greater than or equal to
+&lt;  // less than
+&lt;= // less than or equal to
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>ComparisonDemo</h1>
+            <pre><code data-trim contenteditable>
+class ComparisonDemo {
+  public static void main(String[] args){
+    int value1 = 1;
+    int value2 = 2;
+    if(value1 == value2)
+      System.out.println("value1 == value2");
+
+    if(value1 != value2)
+      System.out.println("value1 != value2");
+
+    if(value1 &gt; value2)
+      System.out.println("value1 &gt; value2");
+
+    if(value1 &lt; value2)
+      System.out.println("value1 &lt; value2");
+
+    if(value1 &lt;= value2)
+      System.out.println("value1 &lt;= value2");
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Présentation des opérateurs</h1>
+            <ul>
+              <li>opérateurs logiques</li>
+              <pre><code data-trim contenteditable>
+&amp;&amp; // Conditional-AND
+|| // Conditional-OR
+              </code></pre>
+              <ul>
+                <li><code>(6 &lt; 5 &amp;&amp; 3 > 1)</code> retourne faux</li>
+                <li><code>(6 &lt; 5 || 3 > 1)</code> retourne vrai</li>
+              </ul>
+              <li>l'opérateur <code>instanceof</code> permet de tester si un objet est une instance d'une classe, une instance de sous-classe ou une classe qui implémente une interface particulière</li>
+              <ul>
+                <li>considérons les classes suivantes</li>
+                <pre><code data-trim contenteditable>
+class Parent {...}
+class Child extends Parent implements MyInterface {...}
+interface MyInterface {...}
+                </code></pre>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>InstanceofDemo</h1>
+            <pre><code data-trim contenteditable>
+class InstanceofDemo {
+    public static void main(String[] args) {
+
+        Parent obj1 = new Parent();
+        Parent obj2 = new Child();
+
+        System.out.println("obj1 instanceof Parent: "
+            + (obj1 instanceof Parent)); // true
+
+        System.out.println("obj1 instanceof Child: "
+            + (obj1 instanceof Child)); // false
+
+        System.out.println("obj1 instanceof MyInterface: "
+            + (obj1 instanceof MyInterface)); // false
+
+        System.out.println("obj2 instanceof Parent: "
+            + (obj2 instanceof Parent)); // true
+
+        System.out.println("obj2 instanceof Child: "
+            + (obj2 instanceof Child)); // true
+
+        System.out.println("obj2 instanceof MyInterface: "
+            + (obj2 instanceof MyInterface)); // true
+    }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Questions</h1>
+            <ol>
+              <li>quels sont les opérateurs contenus dans l'extrait de code suivant ?</li>
+              <pre><code data-trim contenteditable>
+tableau[j] > tableau[j+1]
+              </code></pre>
+              <li>considérons l'extrait de code suivant :</li>
+              <pre><code data-trim contenteditable>
+int i = 10;
+int n = i++%5;
+              </code></pre>
+              <ul>
+                <li>quelles sont les valeurs de i et n après l'exécution du code ?</li>
+                <li>quelles seraient les valeurs si l'on remplaçait i++ par ++i ?</li>
+              </ul>
+              <li>quel opérateur doit-on utiliser pour inverser un booléen ?</li>
+              <li>quel opérateur doit-on utiliser pour comparer l'égalité de deux valeurs ?</li>
+            </ol>
+          </section>
+
+          <section>
+            <h1>Réponses</h1>
+            <ol>
+              <li>quels sont les opérateurs contenus dans l'extrait de code suivant ? &gt; et +</li>
+              <pre><code data-trim contenteditable>
+tableau[j] > tableau[j+1]
+              </code></pre>
+              <li>considérons l'extrait de code suivant :</li>
+              <pre><code data-trim contenteditable>
+int i = 10;
+int n = i++%5;
+              </code></pre>
+              <ul>
+                <li>quelles sont les valeurs de i et n après l'exécution du code ? i est 11 et n est 0</li>
+                <li>quelles seraient les valeurs si l'on remplaçait i++ par ++i ? i est 11 et n est 1</li>
+              </ul>
+              <li>quel opérateur doit-on utiliser pour inverser un booléen ? !</li>
+              <li>quel opérateur doit-on utiliser pour comparer l'égalité de deux valeurs ? ==</li>
+            </ol>
+          </section>
+
+          <section>
+            <h1>Plan</h1>
+            <ul>
+              <li>Les bases du langage Java</li>
+              <ul>
+                <li class="shadow">Variables</li>
+                <li class="shadow">Opérateurs</li>
+                <li>Structures de contrôle</li>
+                <li class="shadow">Conversions de types primitifs</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Structure conditionnelle if</h1>
+            <ul>
+              <li>structure de contrôle la plus simple : si-alors</li>
+              <pre><code data-trim contenteditable>
+if (isMoving){ // "if" clause
+  currentSpeed--; // "then" clause
+}
+
+// without braces
+if (isMoving) currentSpeed--;
+              </code></pre>
+              <li>structure de contrôle si-alors-sinon</li>
+              <pre><code data-trim contenteditable>
+if (isMoving) {
+  currentSpeed--;
+} else {
+  System.err.println("It has stopped!");
+}
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>IfElseDemo</h1>
+            <pre><code data-trim contenteditable>
+class IfElseDemo {
+  public static void main(String[] args) {
+
+    int testscore = 76;
+    char grade;
+
+    if (testscore >= 90) {
+      grade = 'A';
+    } else if (testscore >= 80) {
+      grade = 'B';
+    } else if (testscore >= 70) {
+      grade = 'C';
+    } else if (testscore >= 60) {
+      grade = 'D';
+    } else {
+      grade = 'F';
+    }
+    System.out.println("Grade = " + grade);
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Structure conditionnelle switch</h1>
+            <ul>
+              <li>la structure switch remplace une série de if imbriqués</li>
+              <pre><code data-trim contenteditable>
+int day = 2;
+
+if (day == 1) {
+  System.out.println("Monday");
+} else if (day == 2) {
+  System.out.println("Tuesday");
+} else if (day == 3) {
+  System.out.println("Wednesday");
+}
+... // and so on
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>SwitchDemo</h1>
+            <pre><code data-trim contenteditable>
+public class SwitchDemo {
+  public static void main(String[] args) {
+    int day = 2;
+    String dayString;
+
+    switch (day) {
+      case 1: dayString = "Monday"; break;
+      case 2: dayString = "Tuesday"; break;
+      case 3: dayString = "Wednesday"; break;
+      case 4: dayString = "Thursday"; break;
+      case 5: dayString = "Friday"; break;
+      case 6: dayString = "Saturday"; break;
+      case 7: dayString = "Sunday"; break;
+    }
+    System.out.println(dayString);
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Structure répétitive while</h1>
+            <ul>
+              <li>la structure while permet de répéter un bloc d’instructions tant que la condition est vraie</li>
+              <pre><code data-trim contenteditable>
+while (expression) {
+  statement(s)
+}
+              </code></pre>
+              <li>Java fournit également la structure do-while</li>
+              <pre><code data-trim contenteditable>
+do {
+  statement(s)
+} while (expression);
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>WhileDemo et DoWhileDemo</h1>
+            <pre><code data-trim contenteditable>
+class WhileDemo {
+  public static void main(String[] args){
+    int count = 1;
+    while (count &lt; 11) {
+      System.out.println("Count is: " + count);
+      count++;
+    }
+  }
+}
+
+class DoWhileDemo {
+  public static void main(String[] args){
+    int count = 1;
+    do {
+      System.out.println("Count is: " + count);
+      count++;
+    } while (count &lt; 11);
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Structure répétitive for</h1>
+            <ul>
+              <li>la structure for permet d’itérer sur une plage de valeurs</li>
+              <pre><code data-trim contenteditable>
+for (initialization; termination; increment) {
+  statement(s)
+}
+              </code></pre>
+              <ul>
+                <li><code>initialisation</code> initialise la boucle, elle est exécutée une fois lorsque la boucle démarre</li>
+                <li>lorsque <code>termination</code> est évaluée à <code>false</code>, la boucle se termine</li>
+                <li><code>increment</code> est invoquée après chaque itération de la boucle</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>ForDemo et EnhancedForDemo</h1>
+            <pre><code data-trim contenteditable>
+class ForDemo {
+  public static void main(String[] args){
+    for(int i=1; i&lt;11; i++){
+      System.out.println("Count is: " + i);
+    }
+  }
+}
+
+class EnhancedForDemo {
+  public static void main(String[] args){
+    int[] numbers = {1,2,3,4,5,6,7,8,9,10};
+    for (int item : numbers) {
+      System.out.println("Count is: " + item);
+    }
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Parcourir les tableaux</h1>
+            <ul>
+              <li>les structures for et while permettent de parcourir les éléments d’un tableau en itérant sur une plage de valeurs représentant l’index</li>
+              <pre><code data-trim contenteditable>
+int[] unTableau = {3, 4, 5, 6, 1, 9, 2};
+
+// Avec la boucle for
+for (int i = 0; i &lt; 7; i++) {
+  System.out.println("Element:" + unTableau[i]);
+}
+
+// Avec la boucle while
+int i = 0;
+while(i &lt; 7) {
+  System.out.println("Element:" + unTableau[i]);
+  i++;
+}
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Les instructions break et continue</h1>
+            <ul>
+              <li>break permet d’arrêter les expressions switch, for et while</li>
+              <pre><code data-trim contenteditable>
+for (int i = 0; i &lt; arrayOfInts.length; i++) {
+  if (arrayOfInts[i] == searchfor) {
+    foundIt = true;
+    break;
+  }
+}
+              </code></pre>
+              <li>continue saute l’itération actuelle</li>
+              <pre><code data-trim contenteditable>
+String searchMe = "peter piper picked a peck";
+
+for (int i = 0; i &lt; max; i++) {
+  if (searchMe.charAt(i) != ’p’)
+    continue; // interested only in p’s
+  numPs++; // process p’s
+}
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Questions</h1>
+            <ol>
+              <li>______ est similaire à l’instruction while, mais évalue son expression à la fin de la boucle</li>
+              <li>considérons le code suivant :</li>
+              <pre><code data-trim contenteditable>
+if (aNumber >= 0)
+  if (aNumber == 0) System.out.println("A");
+else System.out.println("B");
+System.out.println("C");
+              </code></pre>
+              <ul>
+                <li>quelle est la sortie de ce code pour aNumber = 3 ?</li>
+              </ul>
+              <li>comment faire une boucle infinie avec while ?</li>
+            </ol>
+          </section>
+
+          <section>
+            <h1>Réponses</h1>
+            <ol>
+              <li>do-while est similaire à l’instruction while, mais évalue son expression à la fin de la boucle</li>
+              <li>considérons le code suivant :</li>
+              <pre><code data-trim contenteditable>
+if (aNumber >= 0)
+  if (aNumber == 0) System.out.println("A");
+else System.out.println("B");
+System.out.println("C");
+              </code></pre>
+              <ul>
+                <li>quelle est la sortie de ce code pour aNumber = 3 ? B C</li>
+              </ul>
+              <li>comment faire une boucle infinie avec while ?</li>
+              <pre><code data-trim contenteditable>
+              while (true) { ... }
+              </code></pre>
+            </ol>
+          </section>
+
+          <section>
+            <h1>Plan</h1>
+            <ul>
+              <li>Les bases du langage Java</li>
+              <ul>
+                <li class="shadow">Variables</li>
+                <li class="shadow">Opérateurs</li>
+                <li class="shadow">Structures de contrôle</li>
+                <li>Conversions de types primitifs</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Conversions de types primitifs</h1>
+            <ul>
+              <li>Java autorise la conversion entre</li>
+              <ul>
+                <li>des valeurs entières et des valeurs à virgule flottante</li>
+                <li>des caractères et des valeurs entières ou à virgule flottante</li>
+              </ul>
+              <li>boolean est le seul type primitif qui ne peut être converti</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Conversions de types primitifs (cont.)</h1>
+            <ul>
+              <li>une <i>conversion élargissante</i> se produit lorsqu’une valeur est convertie vers un type plus large</li>
+              <pre><code data-trim contenteditable>
+              short &gt; int &gt; long
+              </code></pre>
+              <li>une <i>conversion restrictive</i> se produit lorsqu’une valeur est convertie vers un type qui est représenté avec moins de bits</li>
+              <pre><code data-trim contenteditable>
+              long &gt; short ?
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Conversions de types primitifs</h1>
+            <ul>
+              <li>Java exécute automatiquement les conversions élargissantes</li>
+              <pre><code data-trim contenteditable>
+byte a = 13;
+int b = a; // OK
+              </code></pre>
+              <li>en cas de perte de données, le compilateur proteste lors d’une conversion restrictive</li>
+              <pre><code data-trim contenteditable>
+int a = 13;
+byte b = a;
+// Type mismatch: cannot convert
+// from int to byte
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Conversions de types primitifs</h1>
+            <ul>
+              <li>vous pouvez <em>forcer</em> Java à effectuer la conversion en utilisant une construction du langage connue sous le nom de transtypage (cast en anglais)</li>
+              <pre><code data-trim contenteditable>
+int a = 13;
+byte b = (byte) a;
+// oblige la valeur i a etre convertie en
+// une valeur byte
+
+i = (int) 13.456;
+// Transforme la valeur de type double en
+// valeur 13 entiere
+              </code></pre>
+            </ul>
+          </section>
+
+          <section data-background="#FFCCCC">
+            <h1>Résumé des notions abordées</h1>
+            <ul>
+              <li>Variables : variables d'instance, variables de classe, variables locales, paramètres, types primitifs, tableaux</li>
+              <li>Opérateurs : présentation, priorité</li>
+              <li>Structures de contrôle et conversion de types</li>
+            </ul>
+          </section>
+          
       </div>
     </div>
 
