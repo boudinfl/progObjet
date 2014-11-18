@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 
-      <title>Programmation Objet - Les bases du langage Java</title>
+      <title>Programmation Objet - Interfaces et héritage</title>
 
       <link rel="stylesheet" href="reveal.js/css/reveal.min.css">
       <link rel="stylesheet" href="css/simple-theme.css" id="theme">
@@ -32,6 +32,493 @@
 
     <div class="reveal">
       <div class="slides">
+
+          <section>
+            <h1>Programmation Objet</h1>
+            <h2>Florian Boudin</h2>
+            <h3>Révision 3 du 12 novembre 2014</h3>
+            <h4>Classe 4 : <em>Interfaces et héritage</em></h4>
+          </section>
+
+          <section>
+            <h1>Plan</h1>
+            <ul>
+              <li>Interfaces</li>
+              <li>Héritage</li>
+              <li>Polymorphisme</li>
+              <li><code>super</code> et héritage de <code>Object</code></li>
+              <li>Méthodes et classes finales/abstraites</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Introduction</h1>
+            <ul>
+              <li>Exemple : dans une société futuriste ou les voitures sont contrôlées par des ordinateurs</li>
+              <ul>
+                <li>Un constructeur automobile écrit le programme Java qui fait fonctionner la voiture : arrêt, marche, accélérer, etc.</li>
+                <li>Une société de GPS veut utiliser l’information sur le trafic en temps réel pour conduire la voiture &rightarrow; le constructeur automobile doit publier une interface</li>
+                <li>Diffuser une interface permet de garder le code source propriétaire</li>
+              </ul>
+              <li>Des groupes de développeurs distants peuvent accepter un <em>contrat</em> qui précise comment leurs logiciels interagissent</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Interfaces en Java</h1>
+            <ul>
+              <li>Une interface définit un type de référence</li>
+              <li>Une interface ne spécifie qu’une API : toutes ses méthodes sont abstraites et n’ont pas de corps</li>
+              <li>Il n’est pas possible d’instancier une interface</li>
+              <li>Le mot-clé <em>interface</em> est utilisé pour définir une interface</li>
+              <li>Une interface peut être étendue avec le mot-clé <em>extends</em></li>
+              <li>Le mot-clé <em>implements</em> est utilisé lorsqu’une classe implémente une interface</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Définir une interface</h1>
+            <pre><code data-trim contenteditable>
+public interface GroupedInterface extends Interface1, Interface2, Interface3 {
+  
+  // constant declarations
+  // base of natural logarithms
+  double E = 2.718282;
+  
+  // method signatures
+  void doSomething(int i, double x);
+  int doSomethingElse(String s);
+
+}
+            </code></pre>
+            <ul>
+              <li><em>public</em> indique que l’interface peut être utilisée par toutes les classes du <em>package</em></li>
+              <li>L’interface hérite des méthodes et des constantes des super-interfaces</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Exemple d'interface : <em>Relatable</em></h1>
+            <pre><code data-trim contenteditable>
+public interface Relatable {
+
+  // this (object calling isLargerThan)
+  // and other must be instances of
+  // the same class
+  // returns 1, 0, -1 if this is greater
+  // than, equal to, or less than other
+  public int isLargerThan(Relatable other);
+
+}
+            </code></pre>
+            <ul>
+              <li>Une classe peut implémenter Relatable si l’on peut comparer la taille des objets instanciés : strings &rightarrow; nombre de caractères; livres &rightarrow; nombre de pages; etc.</li>
+              <li>Si vous savez qu’une classe implémente <em>Relatable</em>, vous savez que vous pouvez comparer la taille des objets instanciés</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1><em>Rectangle</em> implémentant <em>Relatable</em></h1>
+            <pre><code data-trim contenteditable>
+public class RectanglePlus implements Relatable {
+  // ...
+  public int isLargerThan(Relatable other) {
+    RectanglePlus otherRect = (RectanglePlus) other;
+    if (this.getArea() &lt; otherRect.getArea())
+      return -1;
+    else if (this.getArea() &gt; otherRect.getArea())
+      return 1;
+    else
+      return 0;
+  }
+}
+            </code></pre>
+            <ul>
+              <li>La méthode <code>isLargerThan</code> prend un objet de type <code>Relatable</code>, <code>(RectanglePlus) other</code> convertit <code>other</code> en type <code>RectanglePlus</code></li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Etendre une interface</h1>
+            <ul>
+              <li>Considérons une interface que vous avez créée :</li>
+              <pre><code data-trim contenteditable>
+public interface DoIt {
+  void doSomething(int i, double x);
+  int doSomethingElse(String s);
+}
+              </code></pre>
+              <li>Supposons que, plus tard, vous voulez ajouter une troisième méthode de sorte que l’interface devient</li>
+              <pre><code data-trim contenteditable>
+public interface DoIt {
+  void doSomething(int i, double x);
+  int doSomethingElse(String s);
+  boolean didItWork(int i, double x, String s);
+}
+              </code></pre>
+              <li>Si vous apportez cette modification, toutes les classes qui implémentent l’ancienne interface <code>DoIt</code> ne compilerons plus</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Etendre une interface (cont.)</h1>
+            <ul>
+              <li>Essayer d’anticiper les utilisations de l’interface et de les spécifier le plus complètement possible dès le début</li>
+              <li>Considérant que cela est souvent impossible, vous serez amener à créer ou étendre de nouvelles interfaces</li>
+              <li>Le mot-clé <em>extends</em> permet d’étendre une interface</li>
+              <pre><code data-trim contenteditable>
+public interface DoItPlus extends DoIt {
+  boolean didItWork(int i, double x, String s);
+}
+              </code></pre>
+              <li>Les utilisateurs de ce code peuvent choisir de continuer à utiliser l’ancienne interface ou de mettre à jour pour utiliser la nouvelle</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Questions</h1>
+            <ol>
+              <li>Quelles sont les méthodes qu’une classe implémentant l’interface <code>java.lang.CharSequence</code> devrait implémenter ?</li>
+              <li>Considérons l’interface suivante :</li>
+              <pre><code data-trim contenteditable>
+public interface SomethingIsWrong {
+  void aMethod(int aValue) {
+    System.out.println("Hi Mom");
+  }
+}
+              </code></pre>
+              <ol>
+                <li>Quelle est l’erreur dans l’interface ?</li>
+                <li>Corrigez l’interface</li>
+              </ol>
+            </ol>
+          </section>
+
+          <section>
+            <h1>Réponses</h1>
+            <ol>
+              <li>Quelles sont les méthodes qu’une classe implémentant l’interface <code>java.lang.CharSequence</code> devrait implémenter ?</li>
+              <ul>
+                <li>Avec la javadoc : <code>charAt</code>, <code>length</code>, <code>subSequence</code>, <code>toString</code></li>
+              </ul>
+              <li>Considérons l’interface suivante :</li>
+              <ol>
+                <li>Quelle est l’erreur dans l’interface ? Il y a une implémentation de méthode</li>
+                <li>Corrigez l’interface</li>
+                <pre><code data-trim contenteditable>
+public interface SomethingIsWrong {
+  void aMethod(int aValue);
+}
+                </code></pre>
+              </ol>
+            </ol>
+          </section>
+
+          <section>
+            <h1>Plan</h1>
+            <ul>
+              <li class="shadow">Interfaces</li>
+              <li>Héritage</li>
+              <li class="shadow">Polymorphisme</li>
+              <li class="shadow"><code>super</code> et héritage de <code>Object</code></li>
+              <li class="shadow">Méthodes et classes finales/abstraites</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Introduction</h1>
+            <ul>
+              <li>L’idée d’héritage est simple mais puissante :</li>
+              <ul>
+                <li>lorsque vous souhaitez créer une nouvelle classe et qu’une classe comprenant une partie du code que vous voulez existe, vous pouvez dériver votre nouvelle classe de la classe existante</li>
+              </ul>
+              <li>Une classe dérivée d’une autre classe est appelée <em>sous-classe</em></li>
+              <li>Réciproquement, une classe à partir de laquelle une sous-classe est dérivée est appelée <em>super-classe</em> (classe parent)</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Introduction (cont.)</h1>
+            <ul>
+              <li>Excepté la classe <code>Object</code>, qui n’a pas de super-classe, chaque classe a une et une seule super-classe directe (héritage simple)</li>
+              <li>En l’absence de super-classe explicite, chaque classe est implicitement une sous-classe de <code>Object</code></li>
+              <li>Les classes peuvent être dérivées de classes qui sont issues de classes qui sont issues de classes, etc.</li>
+              <li>Une telle classe est un descendant de toutes les classes de la hiérarchie jusqu’à la classe <code>Object</code></li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Introduction (cont.)</h1>
+            <ul>
+              <li>Une sous-classe hérite de tous les membres (champs, méthodes et classes imbriquées) de sa super-classe</li>
+              <li>Les constructeurs ne sont pas des membres, et ne sont pas hérités mais un constructeur de la super-classe peut être invoqué de la sous-classe</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Hiérarchie des classes en Java</h1>
+            <img src="img/classes-object.png" alt="img/classes-object.png" width="100%">
+          </section>
+
+          <section>
+            <h1>La classe <code>Bicycle</code></h1>
+            <pre><code data-trim contenteditable>
+public class Bicycle {
+
+  public int cadence;
+  public int gear;
+  public int speed;
+
+  public Bicycle(int cadence, int speed, int gear) {
+    this.gear = gear;
+    this.cadence = cadence;
+    this.speed = speed;
+  }
+
+  public void setCadence(int newValue) {
+    cadence = newValue;
+  }
+
+  public void setGear(int newValue) {
+    gear = newValue;
+  } 
+  
+  //...
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>La sous-classe <code>MountainBike,</code></h1>
+            <pre><code data-trim contenteditable>
+public class MountainBike extends Bicycle {
+
+  // the MountainBike subclass adds one field
+  public int seatHeight;
+
+  // the MountainBike subclass has one constructor
+  public MountainBike(int startHeight, int startCadence, int startSpeed, 
+                      int startGear) {
+    super(startCadence, startSpeed, startGear);
+    seatHeight = startHeight;
+  }
+
+  // the MountainBike subclass adds one method
+  public void setHeight(int newValue) {
+    seatHeight = newValue;
+  }
+
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Ce que vous pouvez faire dans une sous-classe</h1>
+            <ul>
+              <li>Les champs (méthodes) hérités peuvent être utilisés directement</li>
+              <li>Vous pouvez déclarer un champ (méthode) dans la sous-classe ayant le même nom qu’un champ (méthode) déclaré dans la super-classe, il devient alors masqué (redéfinie)</li>
+              <li>Vous pouvez déclarer de nouveaux champs (méthodes)</li>
+            </ul>
+          </section>
+
+           <section>
+            <h1>Ce que vous pouvez faire dans une sous-classe (cont.)</h1>
+            <ul>
+              <li>Le constructeur de la sous-classe peut invoquer le constructeur de la super-classe implicitement ou en utilisant le mot-clé <em>super</em></li>
+              <li>Une sous-classe n’hérite pas des membres privés de la classe parent, des méthodes d’accès (<code>public</code> ou <code>protected</code>) peuvent cependant être utilisées pour accéder aux champs privés</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Conversion (<i>casting</i>) des objets</h1>
+            <ul>
+              <li>Créer une instance de <code>MountainBike</code></li>
+              <pre><code data-trim contenteditable>
+public MountainBike myBike = new MountainBike();
+              </code></pre>
+              <li><code>MountainBike</code> est une sous-classe de <code>Bicycle</code> et de <code>Object</code>,
+donc un objet <code>MountainBike</code> est aussi un <code>Bicycle</code> et <code>Object</code></li>
+              <pre><code data-trim contenteditable>
+Object obj = new MountainBike();
+// obj est un Object ET un MountainBike
+// casting implicite
+
+MountainBike myBike = obj;
+// Erreur de compilation
+
+MountainBike myBike = (MountainBike)obj;
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Redéfinition de méthodes</h1>
+            <ul>
+              <li>Une méthode d’instance dans une sous-classe avec la même signature (nom, nombre et type des paramètres) et valeur de retour qu’une méthode d’instance de la super-classe redéfinit (<i>overrides</i>) la méthode de la super-classe</li>
+              <li>L’annotation de documentation <code>@Override</code> peut être utilisée pour indiquer au compilateur que la méthode est surchargée</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Masquage de méthodes</h1>
+            <ul>
+              <li>Une méthode de classe dans une sous-classe avec la même signature et valeur de retour qu’une méthode de classe de la super-classe masque la méthode de la super-classe</li>
+              <li>Considérons la classe suivante :</li>
+              <pre><code data-trim contenteditable>
+public class Animal {
+  public static void testClassMethod() {
+    System.out.println("The class method in Animal");
+  }
+
+  public void testInstanceMethod() {
+    System.out.println("The instance method in Animal");
+  }
+}
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Masquage de méthodes (cont.)</h1>
+            <pre><code data-trim contenteditable>
+public class Cat extends Animal {
+
+  public static void testClassMethod() {
+    System.out.println("The class method in Cat");
+  }
+
+  public void testInstanceMethod() {
+    System.out.println("The instance method in Cat");
+  }
+
+  public static void main(String[] args) {
+    Cat myCat = new Cat();
+    Animal myAnimal = myCat;
+    Animal.testClassMethod();
+    myAnimal.testInstanceMethod();
+    // The class method in Animal
+    // The instance method in Cat
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Plan</h1>
+            <ul>
+              <li class="shadow">Interfaces</li>
+              <li class="shadow">Héritage</li>
+              <li>Polymorphisme</li>
+              <li class="shadow"><code>super</code> et héritage de <code>Object</code></li>
+              <li class="shadow">Méthodes et classes finales/abstraites</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Polymorphisme</h1>
+            <ul>
+              <li>En biologie le polymorphisme est la propriété qu’ont les individus d’une espèce de se présenter sous plusieurs formes différentes</li>
+              <li>Ce principe peut également être appliquée à la programmation objet :</li>
+              <ul>
+                <li>les sous-classes d’une classe peuvent définir leurs propres comportements uniques et pourtant partager une partie des fonctionnalités de la classe parente</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Exemple</h1>
+            <ul>
+              <li>Ajout de la méthode <code>printDescription</code> dans la classe <code>Bicycle</code></li>
+              <pre><code data-trim contenteditable>
+public void printDescription(){
+  System.out.println("\nBike is in gear " + this.gear
+  + " with a cadence of " + this.cadence
+  + " and travelling at a speed of " + this.speed);
+}
+              </code></pre>
+              <li>Deux sous-classes de <code>Bicycle</code> sont créées :</li>
+              <ul>
+                <li><code>MountainBike</code> ajoutant un champ <code>suspension</code> de type chaine de caractères indiquant le type de suspension</li>
+                <li><code>RoadBike</code> ajoutant un champ <code>tireWidth</code> de type entier indiquant l’épaisseur des pneus en millimètres</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Exemple (cont.)</h1>
+            <pre><code data-trim contenteditable>
+public class MountainBike extends Bicycle{
+  private String suspension;
+
+  public MountainBike(int startCadence, int startSpeed,
+                      int startGear, String suspType) {
+    super(startCadence, startSpeed, startGear);
+    this.setSuspension(suspType);
+  }
+
+  public String getSuspension() {
+    return this.suspension;
+  }
+
+  public void printDescription() {
+    super.printDescription();
+    System.out.println("The MountainBike has a"
+    + getSuspension() + " suspension");
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Exemple (cont.)</h1>
+            <pre><code data-trim contenteditable>
+public class RoadBike extends Bicycle{
+  private int tireWidth; // In millimeters (mm)
+
+  public RoadBike(int startCadence, int startSpeed,
+                  int startGear, int newTireWidth) {
+    super(startCadence, startSpeed, startGear);
+    this.setTireWidth(newTireWidth);
+  }
+
+  public int getTireWidth(){
+    return this.tireWidth;
+  }
+
+  public void printDescription(){
+    super.printDescription();
+    System.out.println("The RoadBike has "
+    + getTireWidth() + " MM tires");
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Exemple (cont.)</h1>
+            <pre><code data-trim contenteditable>
+public class TestBikes {
+  public static void main(String[] args){
+    Bicycle bike01, bike02, bike03;
+    bike01 = new Bicycle(20, 10, 1);
+    bike02 = new MountainBike(20, 10, 5, "Dual");
+    bike03 = new RoadBike(40, 20, 8, 23);
+    bike01.printDescription();
+    bike02.printDescription();
+    bike03.printDescription();
+  }
+}
+
+// Bike is in gear 1 with a cadence of 20 and travelling at ...
+
+// Bike is in gear 5 with a cadence of 20 and travelling at ...
+// The MountainBike has a Dual suspension
+ 
+// Bike is in gear 8 with a cadence of 40 and travelling at ...
+// The RoadBike has 23 MM tires
+            </code></pre>
+          </section>
+
 
           <section>
             <h1></h1>
