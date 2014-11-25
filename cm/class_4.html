@@ -519,36 +519,313 @@ public class TestBikes {
             </code></pre>
           </section>
 
+          <section>
+            <h1>Plan</h1>
+            <ul>
+              <li class="shadow">Interfaces</li>
+              <li class="shadow">Héritage</li>
+              <li class="shadow">Polymorphisme</li>
+              <li><code>super</code> et héritage de <code>Object</code></li>
+              <li class="shadow">Méthodes et classes finales/abstraites</li>
+            </ul>
+          </section>
 
           <section>
-            <h1></h1>
+            <h1>Accéder aux membres de la super-classe</h1>
+            <pre><code data-trim contenteditable>
+public class Superclass {
+  public void printMethod() {
+    System.out.println("Printed in Superclass");
+  }
+}
+
+public class Subclass extends Superclass {
+  public void printMethod() {
+    super.printMethod();
+    System.out.println("Printed in Subclass");
+  }
+
+  public static void main(String[] args) {
+    Subclass s = new Subclass();
+    s.printMethod();
+    // Printed in Superclass
+    // Printed in Subclass
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Invoquer le constructeur de la super-classe</h1>
+            <pre><code data-trim contenteditable>
+public MountainBike(int startHeight, int startCadence,
+                    int startSpeed, int startGear) {
+  super(startCadence, startSpeed, startGear);
+  seatHeight = startHeight;
+}
+            </code></pre>
             <ul>
-              <li></li>
+              <li>La syntaxe pour appeller le constucteur de la super-classe est :</li>
               <ul>
-                <li></li>
+                <li><code>super();</code> ou alors <code>super(parameter list);</code></li>
+              </ul>
+              <li>Le compilateur Java insert automatiquement un appel vers le constructeur sans argument de la super-classe (attention aux erreurs de compilation)</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Héritage de la classe <code>Object</code></h1>
+            <ul>
+              <li>Tous les classes sont des descendants de la classe <code>Object</code> et héritent des méthodes :</li>
+            </ul>
+            <pre><code data-trim contenteditable>
+protected Object clone() throws CloneNotSupportedException {}
+// Creates and returns a copy of this object
+
+public boolean equals(Object obj) {}
+// Indicates whether some other object is "equal to"
+
+protected void finalize() throws Throwable {}
+// Called by the garbage collector on an object when garbage collection 
+// determines that there are no more references to the object
+
+public final Class getClass() {}
+// Returns the runtime class of an object
+
+public int hashCode() {}
+// Returns a hash code value for the object
+
+public String toString() {}
+// Returns a string representation of the object
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Redéfinir la méthode <code>equals</code></h1>
+            <pre><code data-trim contenteditable>
+public class Book {
+  // ...
+  public boolean equals(Object obj) {
+    if (obj instanceof Book)
+      return ISBN.equals((Book)obj.getISBN());
+    else
+      return false;
+  }
+}
+            </code></pre>
+            <ul>
+              <li>Deux instances de <code>Book</code> seront considérés comme égaux si ils ont le même ISBN :</li>
+            </ul>
+            <pre><code data-trim contenteditable>
+Book firstBook = new Book("0201914670");
+Book secondBook = new Book("0201914670");
+if (firstBook.equals(secondBook)) {
+  System.out.println("objects are equal");
+}
+            </code></pre>
+          </section>
+
+           <section>
+            <h1>Redéfinir la méthode <code>toString</code></h1>
+            <pre><code data-trim contenteditable>
+public class Book {
+  // ...
+  public String toString() {
+    return title + " (" + ISBN + ")";
+  }
+}
+            </code></pre>
+            <ul>
+              <li>Deux instances de <code>Book</code> seront considérés comme égaux si ils ont le même ISBN :</li>
+            </ul>
+            <pre><code data-trim contenteditable>
+Book firstBook = new Book("Bilbo le Hobbit", "2253049417");
+System.out.println(firstBook);
+// Bilbo le Hobbit (2253049417)
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Plan</h1>
+            <ul>
+              <li class="shadow">Interfaces</li>
+              <li class="shadow">Héritage</li>
+              <li class="shadow">Polymorphisme</li>
+              <li class="shadow"><code>super</code> et héritage de <code>Object</code></li>
+              <li>Méthodes et classes finales/abstraites</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Méthodes et classes finales</h1>
+            <ul>
+              <li>Les méthodes d’une classe peuvent être déclarées avec <code>final</code> afin qu’elles ne puissent être redéfinies</li>
+              <pre><code data-trim contenteditable>
+class ChessAlgorithm {
+
+  enum ChessPlayer { WHITE, BLACK }
+
+  final ChessPlayer getFirstPlayer() {
+    return ChessPlayer.WHITE;
+  }
+}
+              </code></pre>
+              <li>Une classe entière peut être définie comme <code>final</code></li>
+              <pre><code data-trim contenteditable>
+final class ChessBoard {
+  final int[][] board = new int[8][8];
+}
+              </code></pre>
+            </ul>
+          </section>
+
+           <section>
+            <h1>Méthodes et classes abstraites</h1>
+            <ul>
+              <li>Un classe abstraite est déclarée avec le mot-clé <em>abstract</em>, elle ne peut pas être instanciée mais elle peut être la super-classe d’une autre classe</li>
+              <li>Une méthode abstraite est une méthode déclarée sans implémentation, e.g.</li>
+              <pre><code data-trim contenteditable>
+abstract void moveTo(double deltaX, double deltaY);
+              </code></pre>
+              <li>Si une classe contient des méthodes abstraites alors elle doit être déclarée abstraite, e.g.</li>
+              <pre><code data-trim contenteditable>
+public abstract class GraphicObject {
+  // declare fields
+  // declare non-abstract methods
+  abstract void draw();
+}
+              </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h1>Méthodes et classes abstraites (cont.)</h1>
+            <ul>
+              <li>Contrairement aux interfaces, les classes abstraites peuvent contenir des champs qui ne sont pas <code>static</code> ou <code>final</code></li>
+              <li>Les classes abstraites contiennent une implémentation partielle</li>
+              <li><em>Exemple</em> : dans une application de dessin, vous pouvez dessiner des cercles, rectangles, lignes et autres objets graphiques</li>
+              <ul>
+                <li>Les objets ont certains états (e.g. position, couleur) et comportements (e.g. déplacer, rotation) en commun</li>
               </ul>
             </ul>
           </section>
 
           <section>
-            <h1></h1>
+            <h1>Méthodes et classes abstraites (cont.)</h1>
+            <img src="img/classes-graphicObject.png" alt="img/classes-graphicObject.png" width="100%">
+            <ul>
+              <li>On peut déclarer une classe abstraite <code>GraphicObject</code> afin de fournir les variables et les méthodes qui sont partagées par toutes les sous-classes</li>
+            </ul>
+          </section>
+
+          <section>
+            <h1><code>GraphicObject</code></h1>
+            <ul>
+              <li>Certaines méthodes seront déclarées abstraites car leurs implémentations sont spécifiques aux sous-classes</li>
+            </ul>
             <pre><code data-trim contenteditable>
-              
+abstract class GraphicObject {
+  int x, y;
+  ...
+
+  void moveTo(int newX, int newY) {
+    ...
+  }
+
+  abstract void draw();
+  abstract void resize();
+}
             </code></pre>
           </section>
 
           <section>
-            <h1></h1>
+            <h1><code>Circle</code> et <code>Rectangle</code></h1>
+            <pre><code data-trim contenteditable>
+class Circle extends GraphicObject {
+  void draw() {
+    ...
+  }
+
+  void resize() {
+    ...
+  }
+}
+
+class Rectangle extends GraphicObject {
+  void draw() {
+    ...
+  }
+
+  void resize() {
+    ...
+  }
+}
+            </code></pre>
+          </section>
+
+          <section data-background="#FFCCCC">
+            <h1>Résumé des notions abordées</h1>
             <ul>
-              <li></li>
-              <pre><code data-trim contenteditable>
-              
-              </code></pre>
-              <li></li>
-              <pre><code data-trim contenteditable>
-              
-              </code></pre>
+              <li>Excepté la classe <code>Object</code>, chaque classe a exactement une super-classe dont elle hérite les champs et méthodes</li>
+              <li>Une sous-classe peut redéfinir les méthodes héritées et masquer les champs et méthodes hérités</li>
+              <li>La classe <code>Object</code> est au sommet de la hiérarchie des classes, tous les descendants héritent de méthodes utiles comme <code>toString()</code> ou <code>equals()</code></li>
+              <li>Le mot-clé <em>final</em> peut être utilisé pour prévenir une méthode d’être surchargée ou une classe d’être dérivée</li>
+              <li>Une classe abstraite ne peut pas être instanciée mais elle peut être la super-classe d’une autre classe, elle contient souvent une implémentation partielle</li>
             </ul>
+          </section>
+
+          <section>
+            <h1>Questions</h1>
+            <pre><code data-trim contenteditable>
+public class ClassA {
+  public void methodOne(int i) { }
+  public void methodTwo(int i) { }
+  public static void methodThree(int i) { }
+  public static void methodFour(int i) { }
+}
+
+public class ClassB extends ClassA {
+  public static void methodOne(int i) { }
+  public void methodTwo(int i) { }
+  public void methodThree(int i) { }
+  public static void methodFour(int i) { }
+}
+            </code></pre>
+            <ol>
+              <li>Quelle méthode sur-définit une méthode de la super-classe ?</li>
+              <li>Quelle méthode masque une méthode de la super-classe ?</li>
+              <li>Que font les autres méthodes ?</li>
+            </ol>
+          </section>
+
+          <section>
+            <h1>Réponses</h1>
+            <pre><code data-trim contenteditable>
+public class ClassA {
+  public void methodOne(int i) { }
+  public void methodTwo(int i) { }
+  public static void methodThree(int i) { }
+  public static void methodFour(int i) { }
+}
+
+public class ClassB extends ClassA {
+  public static void methodOne(int i) { }
+  public void methodTwo(int i) { }
+  public void methodThree(int i) { }
+  public static void methodFour(int i) { }
+}
+            </code></pre>
+            <ol>
+              <li>Quelle méthode sur-définit une méthode de la super-classe ?</li>
+              <ul>
+                <li><code>methodTwo</code></li>
+              </ul>
+              <li>Quelle méthode masque une méthode de la super-classe ?</li>
+              <ul>
+                <li>methodFour</li>
+              </ul>
+              <li>Que font les autres méthodes ? des erreurs de compilation</li>
+            </ol>
           </section>
 
       </div>
